@@ -1,0 +1,92 @@
+:root{
+  --red:#2d8255;
+  --red-deep:#226340;
+  --navy:#1d4937;
+  --gray:#f5f9f3;
+  --line:#e0e9dc;
+  --text:#263b30;
+  --blue:#3a8764;
+  --gold:#f3dc81;
+  --softgold:#fff9de;
+}
+body{background:#fcfdf9;color:var(--text);font-size:14px}
+a:hover{color:#237147}
+.site-header{background:linear-gradient(105deg,#1b5a42,#328158 70%,#559965);box-shadow:0 4px 22px #1b5a4220}
+.head-row{min-height:90px;gap:24px}
+.logo{font-size:23px;letter-spacing:-.7px;font-weight:800}
+.logo b{color:#ffdf79}
+.logo-mark{background:#fff7d4;color:#2f7751;border-radius:10px;padding:7px 9px}
+.head-links{gap:18px}
+.head-links a{color:#fff;font-weight:700}
+.hotline small{color:#e9f7e7}
+.nav-line{background:#f8fbf5;border-bottom:1px solid #e2e9dc}
+.nav-inner{min-height:51px;gap:27px;color:#4e6657;font-size:13px;font-weight:600}
+.nav-inner a:hover{color:#1f794d}
+.page-main{padding-bottom:85px}
+.breadcrumbs{color:#84968c;margin:22px 0}
+.hero-banner{background:linear-gradient(114deg,#1c5e47,#37835b 56%,#9dbb6f);min-height:300px;border-radius:22px;padding:38px 52px;box-shadow:0 18px 40px #31654723;margin-top:17px}
+.hero-banner h1{font-size:34px;line-height:1.17;font-weight:800;letter-spacing:-.7px;max-width:520px}
+.hero-banner p{max-width:410px;font-size:14px;line-height:1.7;color:#e9f9e9}
+.hero-banner img{width:39%;height:250px;filter:drop-shadow(0 22px 20px #173d322f)}
+.hero-eyebrow{color:#ffe18d;letter-spacing:1.8px;font-size:12px}
+.brand-tile.active{background:#e2f1e2;color:#17603d;border:2px solid #66a777}
+.auth-box{border-color:#dae7d7;border-radius:16px;box-shadow:0 6px 26px #284d390a}
+.btn-red{background:#2d8255;color:white;border-radius:10px}
+.btn-red:hover{background:#1f6945;color:white}
+.auth-box{width:min(430px,100%);padding:35px 34px}
+.auth-box h1{color:#255c42}
+.auth-box button{background:#308456;border-radius:9px}
+.auth-box input{border-radius:8px;border-color:#cfe2d0;outline-color:#7aaf85}
+.auth-box a{color:#2b8054}
+.alert.good{background:#eaf8e6;color:#247647}
+.alert.bad{background:#fff4e3;color:#916115}
+.admin-login-box{margin-top:50px;margin-bottom:75px}
+.site-footer{background:#edf5e9;border-top:1px solid #e0eadb;color:#607b64;padding:38px 0 42px}
+.site-footer h3{color:#286b48}
+.site-footer b{color:#326448}
+.admin-page{background:#f4f8f2}
+.admin-side{background:linear-gradient(180deg,#1c4935,#285d43);color:#d2e7d5}
+.admin-brand{border-bottom-color:#47785a;color:#fff;padding-top:22px}
+.admin-brand small{display:block;font-size:11px;color:#bedcc5;margin-top:5px}
+.admin-menu-title{color:#a8cfb2}
+.admin-side>a:not(.admin-brand){color:#e2f0de;border-left:4px solid transparent;border-radius:0 8px 8px 0;margin:1px 8px}
+.admin-side>a:not(.admin-brand):hover, .admin-side>a.active:not(.admin-brand){background:#347453;border-color:#f6df85;color:white}
+.side-bottom{border-top-color:#538068}
+.admin-top{border-bottom-color:#dbe6d7;color:#49705a;font-weight:600}
+.admin-title{color:#25583f;font-weight:750}
+@media (max-width:1100px){
+.hotline{display:none}
+}
+@media (max-width:760px){
+.hero-banner{padding:25px;min-height:220px}
+.hero-banner h1{font-size:25px}
+.hero-banner img{height:170px}
+.head-row{gap:10px}
+.head-links{gap:12px}
+.admin-side{position:relative;width:100%;display:flex;flex-wrap:wrap;padding:8px;gap:1px}
+.admin-side>a:not(.admin-brand){margin:1px}
+.admin-brand{width:100%}
+.side-bottom{display:flex;margin-top:0;border:0;padding:8px}
+.admin-content{margin-left:0}
+.admin-top{padding:0 15px}
+.admin-main{padding:18px 11px}
+}
+@media (max-width:420px){
+.hero-banner img{display:none}
+.hero-banner h1{font-size:25px}
+}
+@media (max-width:720px){
+.nav-inner{overflow-x:auto}
+}
+html, body{
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  font-kerning: normal;
+}
+button, input, select, textarea{ font-family: inherit; }
+.site-header, .nav-line, .page-main, .site-footer{ font-family: inherit; }
+.page-main h1, .page-main h2, .page-main h3, .logo{ font-family: inherit; }
+@media  (max-width: 760px) {
+html, body{ font-size: 14px; }
+}

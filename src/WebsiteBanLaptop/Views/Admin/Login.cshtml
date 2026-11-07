@@ -1,0 +1,17 @@
+@model LoginViewModel
+@{ ViewData["Title"] = "Đăng nhập quản trị"; Layout = "_Layout"; }
+<div class="breadcrumbs">Trang chủ / Đăng nhập quản trị</div>
+<div class="auth-box admin-login-box">
+  <h1>ĐĂNG NHẬP QUẢN TRỊ</h1>
+  <p>Chỉ tài khoản quản trị mới được vào trang này.</p>
+  <form asp-controller="Admin" asp-action="Login" method="post">
+    <div asp-validation-summary="All" class="field-error"></div>
+    <input asp-for="ReturnUrl" type="hidden" />
+    <label>Email quản trị</label>
+    <input asp-for="Email" type="email" autocomplete="username" placeholder="Email" required />
+    <label>Mật khẩu</label>
+    <input asp-for="Password" type="password" autocomplete="current-password" placeholder="Mật khẩu" required />
+    <button type="submit">Đăng nhập quản trị</button>
+  </form>
+  <p><a asp-controller="Home" asp-action="Index">← Về trang chủ</a></p>
+</div>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>@ViewData["Title"] - Quản trị</title>
+  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/site-v2.css" asp-append-version="true" />
+</head>
+<body class="admin-page">
+  <aside class="admin-side">
+    <a class="admin-brand" asp-controller="Admin" asp-action="Index">Xin chào,<br /><strong>Quản trị viên</strong></a>
+    <div class="admin-menu-title">QUẢN LÝ WEBSITE</div>
+    <a asp-controller="Admin" asp-action="Index">▣ &nbsp; Tổng quan</a>
+    <div class="side-bottom"><a asp-controller="Home" asp-action="Index">← Về trang bán hàng</a>
+      <form asp-controller="Admin" asp-action="Logout" method="post"><button type="submit">Đăng xuất</button></form>
+    </div>
+  </aside>
+  <div class="admin-content">
+    <header class="admin-top"><span>QUẢN TRỊ WEBSITE BÁN LAPTOP</span><span>@User.Identity?.Name</span></header>
+    <main class="admin-main">
+      @if (TempData["Ok"] != null) { <div class="alert good">@TempData["Ok"]</div> }
+      @if (TempData["Error"] != null) { <div class="alert bad">@TempData["Error"]</div> }
+      @RenderBody()
+    </main>
+  </div>
+  @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

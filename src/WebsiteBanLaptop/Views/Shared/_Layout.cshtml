@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>@ViewData["Title"] - Laptop Store</title>
+  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/site-v2.css" asp-append-version="true" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap head-row">
+      <a class="logo" asp-controller="Home" asp-action="Index"><span class="logo-mark">▣</span> LAPTOP <b>STORE</b></a>
+      <div class="head-links"><span class="hotline">☎ <small>Hỗ trợ</small><b>Laptop Store</b></span></div>
+</div>
+  </header>
+  <nav class="nav-line">
+    <div class="wrap nav-inner">
+      <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+    </div>
+  </nav>
+  <main class="wrap page-main">
+    @if (TempData["Ok"] != null) { <div class="alert good">@TempData["Ok"]</div> }
+    @if (TempData["Error"] != null) { <div class="alert bad">@TempData["Error"]</div> }
+    @RenderBody()
+  </main>
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div><h3>LAPTOP STORE</h3><p>Website bán laptop</p></div>
+    </div>
+  </footer>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
