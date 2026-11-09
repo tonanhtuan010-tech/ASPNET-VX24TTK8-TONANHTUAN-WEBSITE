@@ -8,5 +8,6 @@
 3. Trang BÁN HÀNG: https://localhost:7281`. TRANG QUẢN TRỊ: `https://localhost:7281/Admin/Login`.
 4. Chạy `setup/TAO_TAI_KHOAN_ADMIN.bat` để tạo mật khẩu quản trị thử nghiệm.
 
+# Nội dung v0.2
 
-
+- Thêm danh sách laptop ở trang bán hàng và trang quản trị

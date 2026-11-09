@@ -1,0 +1,15 @@
+@model Product
+<article class="product-card">
+  <div class="product-image">
+    <img src="@Model.ImageUrl" alt="@Model.Name" loading="lazy" onerror="this.onerror=null;this.src='/images/laptop-default.svg'" />
+  </div>
+  <div class="product-info">
+    <span class="product-tag">@Model.Category?.CategoryName</span>
+    <span class="product-name">@Model.Name</span>
+    <div class="product-spec">@Model.Cpu · @Model.Ram · @Model.Storage</div>
+    <div class="product-price">@Model.Price.ToString("N0") đ</div>
+    <div class="card-bottom">
+      <span class="stock @(Model.Stock > 0 ? "" : "soldout")">@(Model.Stock > 0 ? "Còn hàng" : "Hết hàng")</span>
+    </div>
+  </div>
+</article>

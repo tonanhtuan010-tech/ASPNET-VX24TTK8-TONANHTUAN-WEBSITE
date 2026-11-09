@@ -1,0 +1,15 @@
+@model List<Product>
+@{ ViewData["Title"] = "Quản lý sản phẩm"; }
+<h1 class="admin-title">Quản lý sản phẩm</h1>
+<div class="panel">
+  <table class="data-table">
+    <thead><tr><th>Mã</th><th>Sản phẩm</th><th>Hãng</th><th>Giá bán</th><th>Số lượng</th></tr></thead>
+    <tbody>
+      @foreach (var p in Model)
+      {
+        <tr><td>@p.ProductID</td><td class="name-cell">@p.Name</td>
+            <td>@p.Category?.CategoryName</td><td>@p.Price.ToString("N0") đ</td><td>@p.Stock</td></tr>
+      }
+    </tbody>
+  </table>
+</div>
