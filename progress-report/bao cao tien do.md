@@ -11,3 +11,7 @@
 # Nội dung v0.2
 
 - Thêm danh sách laptop ở trang bán hàng và trang quản trị
+
+# Nội dung v0.3
+
+- trang trí thêm hình ảnh laptop

@@ -1,0 +1,18 @@
+@model Product
+@{ ViewData["Title"] = Model.Name; }
+<div class="breadcrumbs"><a asp-controller="Home" asp-action="Index">Trang chủ</a> / @Model.Category?.CategoryName / Chi tiết sản phẩm</div>
+<div class="detail-panel">
+  <div class="detail-photo"><img src="@Model.ImageUrl" alt="@Model.Name" onerror="this.onerror=null;this.src='/images/laptop-default.svg'" /></div>
+  <div class="detail-main">
+    <span class="product-tag">@Model.Category?.CategoryName</span>
+    <h1>@Model.Name</h1>
+    <div class="ratings">★ ★ ★ ★ ★ <span>Thông tin sản phẩm</span></div>
+    <div class="detail-price">@Model.Price.ToString("N0") đ</div>
+    <p class="detail-stock">@(Model.Stock > 0 ? $"Còn {Model.Stock} sản phẩm" : "Hết hàng")</p>
+    <div class="spec-short"><div>CPU: <b>@Model.Cpu</b></div><div>RAM: <b>@Model.Ram</b></div><div>Ổ cứng: <b>@Model.Storage</b></div><div>Màn hình: <b>@Model.Screen</b></div></div>
+
+  </div>
+</div>
+<div class="detail-description"><h2>Thông tin sản phẩm</h2><p>@Model.Description</p>
+  <h3>Thông số kỹ thuật</h3><table class="spec-table"><tr><td>Bộ xử lý</td><td>@Model.Cpu</td></tr><tr><td>RAM</td><td>@Model.Ram</td></tr><tr><td>Ổ cứng</td><td>@Model.Storage</td></tr><tr><td>Đồ họa</td><td>@Model.Graphics</td></tr><tr><td>Màn hình</td><td>@Model.Screen</td></tr></table>
+</div>

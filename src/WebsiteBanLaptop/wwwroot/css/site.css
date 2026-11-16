@@ -31,6 +31,43 @@ img{max-width:100%}
 .hero-banner p{color:#d4dfea;font-size:13px;max-width:420px}
 .hero-banner img{height:220px;width:42%;object-fit:contain;filter:drop-shadow(0 18px 15px #0006)}
 .hero-eyebrow{font-size:11px;color:#f8b858;font-weight:800;letter-spacing:2px}
+.hero-action{background:#f1463d;color:white;display:inline-block;margin-top:14px;padding:10px 21px;border-radius:4px;font-weight:bold}
+.hero-action:hover{color:#fff;background:#c92d26}
+.benefits{display:flex;justify-content:space-between;flex-wrap:wrap;border:1px solid #eef0f4;border-radius:5px;padding:13px 18px;background:#fcfcfd;color:#666;font-size:12px;gap:12px;margin-bottom:26px}
+.products-section{padding-top:0}
+.section-title{border-bottom:2px solid var(--red);display:flex;align-items:center;gap:16px;justify-content:space-between;margin-bottom:16px}
+.section-title h2{margin:0;padding-bottom:10px;font-size:23px;font-weight:650}
+.section-title span{font-size:12px;color:#8a929d}
+.product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}
+.product-card{border:1px solid #e9ebee;border-radius:7px;overflow:hidden;background:#fff;display:flex;flex-direction:column;transition:box-shadow .16s,transform .16s}
+.product-card:hover{transform:translateY(-2px);box-shadow:0 8px 26px #253a5720}
+.product-image{height:187px;display:flex;align-items:center;justify-content:center;padding:10px;background:#fff}
+.product-image img{height:165px;width:100%;object-fit:contain}
+.product-info{padding:5px 14px 14px;display:flex;flex-direction:column;flex:1}
+.product-tag{font-size:11px;color:#718092;text-transform:uppercase;font-weight:700}
+.product-name{display:block;font-size:14px;font-weight:650;min-height:42px;line-height:1.45;margin:7px 0;color:#323842}
+.product-spec{font-size:11px;color:#9299a2;min-height:33px}
+.product-price{color:#e63028;font-size:19px;font-weight:800;margin:10px 0}
+.card-bottom{display:flex;align-items:center;justify-content:space-between;gap:4px}
+.stock{font-size:11px;color:#1f9a60}
+.stock.soldout{color:#aaa}
+.detail-panel{display:grid;grid-template-columns:44% 56%;border:1px solid var(--line);border-radius:7px;background:white;overflow:hidden;margin:16px 0 24px}
+.detail-photo{min-height:365px;padding:28px;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--line)}
+.detail-photo img{width:95%;max-height:320px;object-fit:contain}
+.detail-main{padding:25px 34px}
+.detail-main h1{font-size:23px;line-height:1.35;margin:5px 0 9px}
+.ratings{color:#efaf20;font-size:12px}
+.ratings span{color:#96a0ad;margin-left:10px}
+.detail-price{font-size:29px;font-weight:800;color:#ee3d36;margin:23px 0 5px}
+.detail-stock{color:#2aa76d;font-size:12px}
+.spec-short{padding:15px;background:#f8f9fb;border-radius:5px;margin:16px 0;display:grid;gap:8px;color:#5a6674;font-size:12px}
+.detail-description{padding:25px 30px;border:1px solid var(--line);border-radius:6px;margin-bottom:20px}
+.detail-description h2{font-size:21px}
+.detail-description p{color:#565f6b}
+.spec-table{width:100%;max-width:740px;border-collapse:collapse}
+.spec-table td{border:1px solid #e7e9ec;padding:11px 14px}
+.spec-table tr:nth-child(odd){background:#f5f7f9}
+.spec-table td:first-child{width:30%;font-weight:600}
 .auth-box{width:min(400px,100%);margin:45px auto 65px;padding:32px 34px;border:1px solid #ebedf0;border-radius:6px;box-shadow:0 8px 36px #00000009}
 .auth-box h1{text-align:center;font-size:21px;font-weight:650;margin:0}
 .auth-box>p{text-align:center;font-size:12px;color:#8f97a1}
@@ -48,6 +85,11 @@ img{max-width:100%}
 .btn-red:hover{color:#fff;background:var(--red-deep)}
 .empty-box{border:1px solid #e8e8ed;text-align:center;padding:55px 20px;border-radius:8px;margin:22px auto;color:#66717e}
 .empty-box h2{color:#313b48}
+.data-table{width:100%;border-collapse:collapse;font-size:13px}
+.data-table th{background:#f3f5f8;color:#657080;font-weight:650;font-size:12px;text-align:left;border-bottom:1px solid #e5e9ec;padding:12px}
+.data-table td{padding:12px;border-bottom:1px solid #eef0f3;vertical-align:middle}
+.data-table tr:last-child td{border-bottom:0}
+.data-table a{color:#2785c7}
 .site-footer{border-top:1px solid var(--line);background:#f8f9fb;padding:33px 0 40px;color:#66717e}
 .footer-grid{display:grid;grid-template-columns:2fr 1fr 1.4fr;gap:24px;font-size:12px}
 .site-footer h3{color:var(--red);margin:0}
@@ -67,9 +109,13 @@ img{max-width:100%}
 .admin-top{height:60px;background:#fff;border-bottom:1px solid #e7eaf0;display:flex;align-items:center;justify-content:space-between;padding:0 32px;color:#7f8b99;font-size:11px;letter-spacing:.5px}
 .admin-main{padding:27px 32px 80px;max-width:1600px}
 .admin-title{font-size:23px;margin:0 0 21px;color:#374657;font-weight:600}
+.panel{background:#fff;border:1px solid #e3e7ed;border-radius:6px;padding:22px;margin-bottom:20px;overflow-x:auto}
+.panel h2{font-size:16px;color:#475669;margin:0 0 15px;font-weight:650}
 .hint{color:#8f9aa6;font-size:12px}
+.name-cell{max-width:290px}
 @media  (max-width:1100px){
 .head-row{flex-wrap:wrap;padding:12px 0}
+.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media  (max-width:760px){
 .wrap{width:min(100% - 24px,1200px)}
@@ -81,6 +127,18 @@ img{max-width:100%}
 .hero-banner h1{font-size:24px}
 .hero-banner img{width:40%;height:170px}
 .hero-banner p{font-size:11px}
+.benefits{display:grid;grid-template-columns:repeat(2,1fr)}
+.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.product-image{height:145px}
+.product-image img{height:132px}
+.product-info{padding:8px}
+.product-name{font-size:12px;min-height:37px}
+.product-price{font-size:16px}
+.product-spec{font-size:10px}
+.detail-panel{grid-template-columns:1fr}
+.detail-photo{border-right:0;border-bottom:1px solid var(--line);min-height:240px}
+.detail-photo img{max-height:230px}
+.detail-main{padding:20px}
 .footer-grid{grid-template-columns:1fr 1fr}
 .footer-grid>div:first-child{grid-column:1/-1}
 .admin-side{position:relative;width:auto;display:flex;flex-wrap:wrap;padding:8px}
@@ -91,9 +149,13 @@ img{max-width:100%}
 .admin-content{margin-left:0}
 .admin-top{padding:0 14px;height:45px}
 .admin-main{padding:18px 10px}
+.panel{padding:12px}
 }
 @media  (max-width:410px){
 .head-links{font-size:10px;gap:7px}
 .hero-banner h1{font-size:21px}
 .hero-banner img{width:33%}
+.product-price{font-size:15px}
+.stock{font-size:10px}
+.section-title h2{font-size:19px}
 }

@@ -1,0 +1,153 @@
+{
+  "version": "v0.3",
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "cc710ca61eb71481cf2e2570ab7e07692947829f571542cd224538939a59bd96"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "0b2c89708cf32fed31e09fde624196c5ce1490961523f4dcc1daf02347fafd6a"
+    },
+    {
+      "path": "README.md",
+      "sha256": "1861205521580d5a398b0f6b375ce57b6d64ec28dfe4e23bd81305bf323586be"
+    },
+    {
+      "path": "setup/HUONG_DAN_KIEM_TRA.md",
+      "sha256": "ab80dcefce981f92ea66fe0ef7731305fa953ab23d82f62e1e373e332937f3bf"
+    },
+    {
+      "path": "setup/TAO_TAI_KHOAN_ADMIN.bat",
+      "sha256": "ff9c4f0a39c2ba975dd818a24274ede8e38788943cc7f203071181285d7b82b2"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Controllers/AdminController.cs",
+      "sha256": "65c4967ec85ee4dfd2d5e1243ae00edb26dc717b814840ec4720bb53ed96b7d3"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Controllers/HomeController.cs",
+      "sha256": "a8e279c40453217bfdf0696d774cae698437ff22dffe8a1d9b082a8073f7eac6"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Controllers/ProductsController.cs",
+      "sha256": "0bd9f59f293c7cf06a9ab863fb84a7928a9e3708be1378533a1aecc020663bd2"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Data/AdminAccountSetup.cs",
+      "sha256": "9d6bc74227703387def845d853550702b72cd44c95dccd5caf7bd39eec56f3c0"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Data/AppDbContext.cs",
+      "sha256": "1552dfd353848b252733cd8eb861f132d2a77ea396d9ad70ee4610724eff208c"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Data/SampleData.cs",
+      "sha256": "857df1fcce8e4837b789fcb59685d9319c4d70214dfa311617a0ff0b3fc02c2c"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Data/StageSchema.cs",
+      "sha256": "af516c932f4476ab83caac493fcd9cfcaf8b5204ec2849a11e7f07e5911ed9b4"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Models/Category.cs",
+      "sha256": "59cf83983a112669c7db6485d23defa9dd7d3e509d983d5e6e7166e054d9deeb"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Models/Product.cs",
+      "sha256": "9cf00f31ededa690e13f511893421e8e5a3fb7320ed03c599fc7404caa8972a1"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Models/User.cs",
+      "sha256": "3f96b6a197bbf582efc867e0cf71acd5951177ff2d7ae71a2eaaa12d3613d145"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Models/ViewModels.cs",
+      "sha256": "0ec1ee645f574bf36afbab7567377d28b9845349a116f2b510e98f04e9953998"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Program.cs",
+      "sha256": "1e7ce54878ac14fb93e06f61f3207319d787434202db6be8cb46941c961719d1"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Properties/launchSettings.json",
+      "sha256": "4c74cd00900629128ef892822c0cf20beafae2e0b62816987f3a706048687790"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Views/Admin/Denied.cshtml",
+      "sha256": "04de51a946ac0a4a7833d3bb8f147ff7d3a044da6a4a8943ad9bd671666d1da0"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Views/Admin/Index.cshtml",
+      "sha256": "392f5b943cb8491aa3da00bbc2f019b04c75d46cc4f602aeb799f34d2b966834"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Views/Admin/Login.cshtml",
+      "sha256": "027672386fa1a031eccd964b5fc29c7d12c45f0d1caa89b9a0dd7e54c4316ab7"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Views/Admin/Products.cshtml",
+      "sha256": "53e632cb082e563a797ded23346a2f2338625d9513fcdf2156421f98d9ddd360"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Views/Admin/_ViewStart.cshtml",
+      "sha256": "c80badad26994b5f9c4c0e50eeee867c3d55390bea7ce3658e72859005d9655f"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Views/Home/Error.cshtml",
+      "sha256": "e3849710c86252a8f2a260983de8e3bb8db25371bb1eaba1612d5692881d9958"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Views/Home/Index.cshtml",
+      "sha256": "b906920d679bccac934df51968bf8d399732cd9533f006b016e1d0d23fe822e4"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Views/Products/Details.cshtml",
+      "sha256": "de6b360b6d96e0bd90a3bc2822a9779909ca6cf6487c900c5731d5d677361328"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Views/Shared/_AdminLayout.cshtml",
+      "sha256": "350190d2bae3ddb0da8b4a776919b518353b7d6cf0b2a61e0b709a0aba5bfb8c"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Views/Shared/_Layout.cshtml",
+      "sha256": "be8e61ebabc9897b94a76fbf3d0e62f7c3ce7aa0eb48d3870c2fef5ef725f262"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Views/Shared/_ProductCard.cshtml",
+      "sha256": "9798cd7c6807dc96d317daaedcd4f5bf0b99810a221e5ed75606fc1838826095"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Views/_ViewImports.cshtml",
+      "sha256": "44fa70b54b3d5d8d46c372599b2c53bb9840e07c73ff6b636781b4c25b8c9c75"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/Views/_ViewStart.cshtml",
+      "sha256": "3a8c523f595b40ed4d5b54a0ea7b8a42728d368582b2a29ef12db188990f7373"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/WebsiteBanLaptop.csproj",
+      "sha256": "c2d39aef3e3bec43ed536b2f924b2c98ba01940da3722c70d8afc1b5f3dcfed6"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/appsettings.json",
+      "sha256": "3da37b8b30802cf4452d6da093415d8bd1fcaecd9b1ce136bd01e7ad947787f9"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/wwwroot/css/site-v2.css",
+      "sha256": "38ed85bc3c7dc1c7c0b45e75bc1641b214d9a76ae49b9430c77625756e343df4"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/wwwroot/css/site.css",
+      "sha256": "a772604fe7d8a40e678f48b04853625ad20c03f2db00cc68da8bbf9c8e793ddc"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/wwwroot/images/laptop-default.svg",
+      "sha256": "bf9cbc0fd1d0080eff49809bb8aea6913e2cb187ae8aa9ef5882e84c00f24dbe"
+    },
+    {
+      "path": "src/WebsiteBanLaptop/wwwroot/images/laptop-hero.svg",
+      "sha256": "e8c488ec6733c62e52228df35be857a82140f2b8a84aec58a79f5a13dfe1e901"
+    }
+  ]
+}

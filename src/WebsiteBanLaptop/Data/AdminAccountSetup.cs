@@ -5,7 +5,7 @@ using WebsiteBanLaptop.Models;
 
 namespace WebsiteBanLaptop.Data;
 
-// Chạy bằng lệnh --reset-admin-password, KHÔNG phải một URL.
+// Chạy từ máy phát triển bằng lệnh --reset-admin-password, KHÔNG phải một URL.
 public static class AdminAccountSetup
 {
     public static async Task ResetPasswordAsync(AppDbContext db, IPasswordHasher<User> hasher)

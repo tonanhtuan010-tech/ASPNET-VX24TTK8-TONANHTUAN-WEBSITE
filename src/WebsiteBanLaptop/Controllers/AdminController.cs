@@ -61,6 +61,14 @@ public class AdminController : Controller
 
     public IActionResult Index() => View();
 
+    public async Task<IActionResult> Products()
+    {
+        var products = await _db.Products.AsNoTracking()
+            .Include(x => x.Category)
+            .OrderBy(x => x.ProductID).ToListAsync();
+        return View(products);
+    }
+
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout()
     {

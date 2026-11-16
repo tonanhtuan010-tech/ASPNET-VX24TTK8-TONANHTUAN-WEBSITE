@@ -29,8 +29,31 @@ a:hover{color:#237147}
 .hero-banner p{max-width:410px;font-size:14px;line-height:1.7;color:#e9f9e9}
 .hero-banner img{width:39%;height:250px;filter:drop-shadow(0 22px 20px #173d322f)}
 .hero-eyebrow{color:#ffe18d;letter-spacing:1.8px;font-size:12px}
+.hero-action{background:#f5dc88;color:#28523d;border-radius:10px;font-size:14px;padding:12px 20px;box-shadow:0 8px 20px #132e2a2e}
+.hero-action:hover{color:#1b4b35;background:#ffe8a1}
+.benefits{margin:19px 0 30px;background:#f2f8ed;border:1px solid #e1edd9;padding:16px 23px;border-radius:12px;font-size:12px;color:#4f705d}
+.section-title{border-bottom:2px solid #73a982;margin-bottom:22px;align-items:center;gap:15px}
+.section-title h2{font-weight:750;font-size:24px;color:#25583f}
+.section-title .page-title{margin:12px 0 15px;font-size:27px;color:#245b40}
+.section-title>span{color:#718e7a}
 .brand-tile.active{background:#e2f1e2;color:#17603d;border:2px solid #66a777}
-.auth-box{border-color:#dae7d7;border-radius:16px;box-shadow:0 6px 26px #284d390a}
+.product-grid{gap:19px}
+.product-card{border-radius:16px;border:1px solid #e1eade;box-shadow:0 4px 18px #254b3008;transition:box-shadow .2s,transform .2s}
+.product-card:hover{box-shadow:0 12px 32px #205c3321;transform:translateY(-4px)}
+.product-image{background:linear-gradient(180deg,#fbfdfa,#eff6ed);height:185px;padding:12px}
+.product-card .product-info{padding:11px 16px 17px}
+.product-tag{color:#368050;font-size:11px;background:#e9f5e5;padding:3px 7px;border-radius:5px;width:max-content}
+.product-name{color:#264b37;font-size:14px;font-weight:750;min-height:44px}
+.product-spec{color:#7f9385;font-size:11px}
+.product-price{color:#236b45;font-size:21px;margin:11px 0;font-weight:850}
+.stock{color:#33885c}
+.detail-panel, .detail-description, .auth-box, .panel{border-color:#dae7d7;border-radius:16px;box-shadow:0 6px 26px #284d390a}
+.detail-photo{background:#f5faf3;border-right:1px solid #e0eadb}
+.detail-main h1{color:#264b35}
+.detail-price{color:#26734c}
+.detail-stock{color:#3f8b60}
+.spec-table tr:nth-child(odd){background:#f2f8f0}
+.spec-table td{border-color:#e1eadf}
 .btn-red{background:#2d8255;color:white;border-radius:10px}
 .btn-red:hover{background:#1f6945;color:white}
 .auth-box{width:min(430px,100%);padding:35px 34px}
@@ -40,6 +63,8 @@ a:hover{color:#237147}
 .auth-box a{color:#2b8054}
 .alert.good{background:#eaf8e6;color:#247647}
 .alert.bad{background:#fff4e3;color:#916115}
+.data-table th{background:#eef6ec;color:#53745d}
+.data-table a{color:#24784b}
 .admin-login-box{margin-top:50px;margin-bottom:75px}
 .site-footer{background:#edf5e9;border-top:1px solid #e0eadb;color:#607b64;padding:38px 0 42px}
 .site-footer h3{color:#286b48}
@@ -63,6 +88,8 @@ a:hover{color:#237147}
 .hero-banner img{height:170px}
 .head-row{gap:10px}
 .head-links{gap:12px}
+.product-card .product-info{padding:9px}
+.product-price{font-size:17px}
 .admin-side{position:relative;width:100%;display:flex;flex-wrap:wrap;padding:8px;gap:1px}
 .admin-side>a:not(.admin-brand){margin:1px}
 .admin-brand{width:100%}
@@ -74,10 +101,14 @@ a:hover{color:#237147}
 @media (max-width:420px){
 .hero-banner img{display:none}
 .hero-banner h1{font-size:25px}
+.product-grid{gap:10px}
+.product-image{height:140px}
 }
+#san-pham{scroll-margin-top:15px}
 @media (max-width:720px){
 .nav-inner{overflow-x:auto}
 }
+.product-price{ font-variant-numeric:tabular-nums; letter-spacing:-.25px; }
 html, body{
   font-family: "Segoe UI", Tahoma, Arial, sans-serif;
   font-size: 15px;
@@ -86,7 +117,15 @@ html, body{
 }
 button, input, select, textarea{ font-family: inherit; }
 .site-header, .nav-line, .page-main, .site-footer{ font-family: inherit; }
-.page-main h1, .page-main h2, .page-main h3, .logo{ font-family: inherit; }
+.page-main h1, .page-main h2, .page-main h3, .product-name, .product-price, .detail-price, .logo, .section-title h2{ font-family: inherit; }
+.product-name{ font-weight: 700; line-height: 1.55; }
+.product-spec{ font-size: 12px; line-height: 1.55; }
+.product-price, .detail-price{
+  font-family: inherit; font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+}
+.product-price{ letter-spacing: 0; }
 @media  (max-width: 760px) {
 html, body{ font-size: 14px; }
 }
