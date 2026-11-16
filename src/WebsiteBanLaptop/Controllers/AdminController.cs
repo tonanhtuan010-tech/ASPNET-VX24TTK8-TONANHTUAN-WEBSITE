@@ -61,12 +61,13 @@ public class AdminController : Controller
 
     public IActionResult Index() => View();
 
-    public async Task<IActionResult> Products()
+    public async Task<IActionResult> Products(string? search)
     {
-        var products = await _db.Products.AsNoTracking()
-            .Include(x => x.Category)
-            .OrderBy(x => x.ProductID).ToListAsync();
-        return View(products);
+        var query = _db.Products.AsNoTracking().Include(x => x.Category).AsQueryable();
+        if (!string.IsNullOrWhiteSpace(search))
+            query = query.Where(x => x.Name.Contains(search.Trim()));
+        ViewBag.Search = search;
+        return View(await query.OrderBy(x => x.ProductID).ToListAsync());
     }
 
     [HttpPost, ValidateAntiForgeryToken]

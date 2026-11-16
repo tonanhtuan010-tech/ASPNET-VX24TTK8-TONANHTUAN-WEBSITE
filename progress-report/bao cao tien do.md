@@ -15,3 +15,7 @@
 # Nội dung v0.3
 
 - trang trí thêm hình ảnh laptop
+
+# Nội dung v0.4
+
+- thêm chức năng tìm và lọc sản phẩm

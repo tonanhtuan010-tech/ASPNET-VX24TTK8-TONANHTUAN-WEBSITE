@@ -1,5 +1,5 @@
 @model List<Product>
-@{ ViewData["Title"] = "Trang chủ"; }
+@{ ViewData["Title"] = "Trang chủ"; ViewData["FilterAction"] = "Index"; }
 <div class="breadcrumbs">Trang chủ</div>
 <div class="hero-banner">
   <div>
@@ -13,6 +13,8 @@
 <div class="benefits"><span>✓ Nhiều mẫu laptop</span><span>✓ Xem cấu hình dễ dàng</span><span>✓ Giá tham khảo rõ ràng</span></div>
 <section class="products-section" id="san-pham">
   <div class="section-title"><h2>Danh sách laptop</h2><span>@Model.Count sản phẩm</span></div>
-  @if (!Model.Any()) { <div class="empty-box">Chưa có sản phẩm.</div> }
+  <partial name="_LaptopFilters" />
+  <p class="result-count">Có <strong>@Model.Count</strong> sản phẩm phù hợp</p>
+  @if (!Model.Any()) { <div class="empty-box">Không có laptop phù hợp. <a asp-action="Index">Xóa lọc</a></div> }
   else { <div class="product-grid">@foreach (var product in Model) { <partial name="_ProductCard" model="product" /> }</div> }
 </section>

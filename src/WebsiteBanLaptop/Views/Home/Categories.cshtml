@@ -1,0 +1,14 @@
+@model List<Product>
+@{ ViewData["Title"] = "Danh mục laptop"; ViewData["FilterAction"] = "Categories"; var categories = (List<Category>)ViewBag.Categories; }
+<div class="breadcrumbs"><a asp-action="Index">Trang chủ</a> / Danh mục laptop</div>
+<div class="section-title"><h1 class="page-title">Danh mục laptop</h1><span>Chọn hãng laptop</span></div>
+<div class="brand-grid"><a asp-action="Categories" class="brand-tile">Tất cả hãng</a>
+  @foreach (var cat in categories)
+  {
+    <a asp-action="Categories" asp-route-categoryId="@cat.CategoryID" class="brand-tile">@cat.CategoryName</a>
+  }
+</div>
+<partial name="_LaptopFilters" />
+<p class="result-count">Có <strong>@Model.Count</strong> sản phẩm phù hợp</p>
+@if (!Model.Any()) { <div class="empty-box">Không có laptop phù hợp.</div> }
+else { <div class="product-grid">@foreach (var product in Model) { <partial name="_ProductCard" model="product" /> }</div> }

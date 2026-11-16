@@ -2,6 +2,7 @@
 @{ ViewData["Title"] = "Quản lý sản phẩm"; }
 <h1 class="admin-title">Quản lý sản phẩm</h1>
 <div class="panel">
+  <form method="get" asp-action="Products" class="inline-search"><input name="search" value="@ViewBag.Search" placeholder="Tìm sản phẩm" /><button type="submit">Tìm</button></form>
   <table class="data-table">
     <thead><tr><th>Mã</th><th>Sản phẩm</th><th>Hãng</th><th>Giá bán</th><th>Số lượng</th></tr></thead>
     <tbody>

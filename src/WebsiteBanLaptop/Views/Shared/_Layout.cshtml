@@ -7,18 +7,59 @@
   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
   <link rel="stylesheet" href="~/css/site-v2.css" asp-append-version="true" />
 </head>
+@inject WebsiteBanLaptop.Data.AppDbContext AppDb
+@{
+  var menuCategories = AppDb.Categories.OrderBy(c => c.CategoryName).ToList();
+}
 <body>
   <header class="site-header">
     <div class="wrap head-row">
       <a class="logo" asp-controller="Home" asp-action="Index"><span class="logo-mark">▣</span> LAPTOP <b>STORE</b></a>
-      <div class="head-links"><span class="hotline">☎ <small>Hỗ trợ</small><b>Laptop Store</b></span></div>
-</div>
+      <form class="search-header" asp-controller="Home" asp-action="Index" method="get">
+        <input name="search" value="@ViewBag.Search" placeholder="Bạn cần tìm laptop gì?" aria-label="Tìm sản phẩm" />
+        <button type="submit">Tìm kiếm</button>
+      </form>
+      <div class="head-links"><span class="hotline">☎ <small>Hỗ trợ</small><b>Laptop Store</b></span>
+      </div>
+    </div>
   </header>
   <nav class="nav-line">
     <div class="wrap nav-inner">
+      <button id="category-toggle" class="nav-strong" type="button" aria-controls="category-menu" aria-expanded="false">☰ &nbsp; DANH MỤC LAPTOP ⌄</button>
       <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+      <a asp-controller="Home" asp-action="Index" asp-route-sort="low">Laptop giá tốt</a>
     </div>
   </nav>
+  <section class="mega-shell" id="category-menu" hidden aria-label="Danh mục laptop">
+    <div class="wrap mega-grid">
+      <div class="mega-left"><h3>Danh mục laptop</h3>
+        <a asp-controller="Home" asp-action="Index">▣ Tất cả laptop</a>
+        @foreach (var item in menuCategories)
+        {
+          <a asp-controller="Home" asp-action="Index" asp-route-categoryId="@item.CategoryID">▸ Laptop @item.CategoryName</a>
+        }
+      </div>
+      <div class="mega-center"><h3>Gợi ý chọn laptop</h3>
+        <p class="mega-subtitle">Lựa chọn theo hãng</p>
+        <div class="mega-brand-list">
+        @foreach (var item in menuCategories)
+        {
+          <a class="mega-link" asp-controller="Home" asp-action="Index" asp-route-categoryId="@item.CategoryID">@item.CategoryName</a>
+        }
+        </div>
+        <p class="mega-subtitle">Theo nhu cầu sử dụng</p>
+        <div class="mega-row-links"><a asp-controller="Home" asp-action="Index" asp-route-usage="study">Học tập</a><a asp-controller="Home" asp-action="Index" asp-route-usage="office">Văn phòng</a><a asp-controller="Home" asp-action="Index" asp-route-usage="gaming">Gaming</a></div>
+        <p class="mega-subtitle">Theo khoảng giá</p>
+        <div class="mega-row-links"><a asp-controller="Home" asp-action="Index" asp-route-priceRange="under20">Dưới 20 triệu</a><a asp-controller="Home" asp-action="Index" asp-route-priceRange="20-25">20–25 triệu</a><a asp-controller="Home" asp-action="Index" asp-route-priceRange="25-30">25–30 triệu</a><a asp-controller="Home" asp-action="Index" asp-route-priceRange="30-40">30–40 triệu</a><a asp-controller="Home" asp-action="Index" asp-route-priceRange="over40">Trên 40 triệu</a></div>
+      </div>
+      <div class="mega-right"><h3>Khám phá thêm</h3>
+        <a asp-controller="Home" asp-action="Index" asp-route-sort="low">↗ Laptop giá tốt</a>
+        <a asp-controller="Home" asp-action="Index" asp-route-sort="high">↗ Laptop cao cấp</a>
+        <a asp-controller="Home" asp-action="Index" asp-route-usage="gaming">↗ Laptop gaming</a>
+        <p>Chọn một mục để xem sản phẩm ngay trên trang chủ.</p>
+      </div>
+    </div>
+  </section>
   <main class="wrap page-main">
     @if (TempData["Ok"] != null) { <div class="alert good">@TempData["Ok"]</div> }
     @if (TempData["Error"] != null) { <div class="alert bad">@TempData["Error"]</div> }
@@ -26,9 +67,32 @@
   </main>
   <footer class="site-footer">
     <div class="wrap footer-grid">
-      <div><h3>LAPTOP STORE</h3><p>Website bán laptop</p></div>
+      <div><h3>LAPTOP STORE</h3><p>Website bán laptop</p><small>Giá sản phẩm là dữ liệu tham khảo để thực hành.</small></div>
+      <div><b>Thông tin</b><p><a asp-controller="Home" asp-action="Index">Sản phẩm</a></p></div>
+      <div><b>Hỗ trợ</b><p>Laptop Store</p><p></p></div>
     </div>
   </footer>
-@await RenderSectionAsync("Scripts", required: false)
+  <script>
+    const categoryButton = document.getElementById('category-toggle');
+    const categoryMenu = document.getElementById('category-menu');
+    categoryButton?.addEventListener('click', () => {
+      categoryMenu.hidden = !categoryMenu.hidden;
+      categoryButton.setAttribute('aria-expanded', String(!categoryMenu.hidden));
+    });
+    document.addEventListener('click', e => {
+      if (!categoryMenu.hidden && !e.target.closest('#category-menu') && !e.target.closest('#category-toggle')) {
+        categoryMenu.hidden = true;
+        categoryButton.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !categoryMenu.hidden) {
+        categoryMenu.hidden = true;
+        categoryButton.setAttribute('aria-expanded', 'false');
+        categoryButton.focus();
+      }
+    });
+  </script>
+  @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,0 +1,61 @@
+@{
+    var categories = (List<Category>)ViewBag.Categories;
+    var ranges = new[] { ("under20", "Dưới 20 triệu"), ("20-25", "20–25 triệu"),
+        ("25-30", "25–30 triệu"), ("30-40", "30–40 triệu"), ("over40", "Trên 40 triệu") };
+    var needs = new[] { ("study", "Học tập"), ("office", "Văn phòng"), ("gaming", "Gaming") };
+    var sorts = new[] { ("low", "Giá thấp đến cao"), ("high", "Giá cao đến thấp"), ("name", "Tên A-Z") };
+    var action = ViewData["FilterAction"]?.ToString() ?? "Index";
+}
+<form class="filters" method="get" asp-controller="Home" asp-action="@action">
+    <input name="search" value="@ViewBag.Search" placeholder="Nhập tên laptop cần tìm" aria-label="Tìm laptop" />
+    <select name="categoryId" aria-label="Hãng laptop">
+        <option value="">Tất cả hãng</option>
+        @foreach (var cat in categories)
+        {
+            if (ViewBag.CategoryId == cat.CategoryID) { <option selected value="@cat.CategoryID">@cat.CategoryName</option> }
+            else { <option value="@cat.CategoryID">@cat.CategoryName</option> }
+        }
+    </select>
+    <select name="priceRange" aria-label="Khoảng giá">
+        <option value="">Tất cả mức giá</option>
+        @foreach (var range in ranges)
+        {
+            if (ViewBag.PriceRange == range.Item1) { <option selected value="@range.Item1">@range.Item2</option> }
+            else { <option value="@range.Item1">@range.Item2</option> }
+        }
+    </select>
+    <select name="usage" aria-label="Nhu cầu">
+        <option value="">Mọi nhu cầu</option>
+        @foreach (var need in needs)
+        {
+            if (ViewBag.Usage == need.Item1) { <option selected value="@need.Item1">@need.Item2</option> }
+            else { <option value="@need.Item1">@need.Item2</option> }
+        }
+    </select>
+    <select name="cpu" aria-label="Hãng CPU">
+        <option value="">Tất cả CPU</option>
+        @foreach (var item in new[] { ("intel", "Intel"), ("amd", "AMD"), ("apple", "Apple") })
+        {
+            if (ViewBag.Cpu == item.Item1) { <option selected value="@item.Item1">@item.Item2</option> }
+            else { <option value="@item.Item1">@item.Item2</option> }
+        }
+    </select>
+    <select name="ram" aria-label="Dung lượng RAM">
+        <option value="">Tất cả RAM</option>
+        @foreach (var item in new[] { ("8", "8 GB"), ("16", "16 GB"), ("32", "32 GB") })
+        {
+            if (ViewBag.Ram == item.Item1) { <option selected value="@item.Item1">@item.Item2</option> }
+            else { <option value="@item.Item1">@item.Item2</option> }
+        }
+    </select>
+    <select name="sort" aria-label="Sắp xếp">
+        <option value="">Mặc định</option>
+        @foreach (var option in sorts)
+        {
+            if (ViewBag.Sort == option.Item1) { <option selected value="@option.Item1">@option.Item2</option> }
+            else { <option value="@option.Item1">@option.Item2</option> }
+        }
+    </select>
+    <button type="submit">Lọc sản phẩm</button>
+    <a class="btn-light" asp-controller="Home" asp-action="@action">Xóa lọc</a>
+</form>
