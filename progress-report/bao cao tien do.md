@@ -19,3 +19,7 @@
 # Nội dung v0.4
 
 - thêm chức năng tìm và lọc sản phẩm
+
+# Nội dung v0.5
+
+- thêm chức năng giỏ hàng, tạo tài khoản, đặt hàng và theo dõi đơn hàng
