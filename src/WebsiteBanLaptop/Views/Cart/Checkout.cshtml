@@ -1,0 +1,42 @@
+@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Thanh toán";
+    var lines = (List<CartLine>)ViewBag.Lines;
+}
+<div class="breadcrumbs">Giỏ hàng / Thanh toán</div>
+<h1 class="page-title">Thanh toán đơn hàng</h1>
+<form asp-action="Checkout" method="post" class="checkout-layout">
+  <div class="checkout-form">
+    <h2>Thông tin giao hàng</h2>
+    <div asp-validation-summary="ModelOnly" class="field-error"></div>
+    <label>Họ và tên</label><input asp-for="CustomerName" /><span asp-validation-for="CustomerName" class="field-error"></span>
+    <label>Số điện thoại</label><input asp-for="Phone" /><span asp-validation-for="Phone" class="field-error"></span>
+    <label>Địa chỉ nhận hàng</label><textarea asp-for="Address" rows="3"></textarea><span asp-validation-for="Address" class="field-error"></span>
+    <label>Ghi chú (nếu có)</label><textarea asp-for="Note" rows="2"></textarea>
+    <h3>Hình thức thanh toán</h3>
+    <div class="payment-methods">
+      <label class="radio-card payment-choice">
+        <input asp-for="PaymentMethod" type="radio" value="COD" />
+        <span>Thanh toán khi nhận hàng (COD)</span>
+      </label>
+      <label class="radio-card payment-choice">
+        <input asp-for="PaymentMethod" type="radio" value="VNPAY" />
+        <span>VNPay</span>
+      </label>
+      <label class="radio-card payment-choice">
+        <input asp-for="PaymentMethod" type="radio" value="MOMO" />
+        <span>Ví MoMo</span>
+      </label>
+      <span asp-validation-for="PaymentMethod" class="field-error"></span>
+    </div>
+  </div>
+  <div class="summary-card">
+    <h3>Đơn hàng của bạn</h3>
+    @foreach (var line in lines)
+    {
+      <div class="summary-line"><span>@line.Product.Name × @line.Quantity</span><span>@line.Amount.ToString("N0") đ</span></div>
+    }
+    <div class="summary-line total"><b>Tổng tiền</b><strong>@lines.Sum(x => x.Amount).ToString("N0") đ</strong></div>
+    <button type="submit" class="btn-red block">Đặt hàng</button>
+  </div>
+</form>

@@ -1,0 +1,20 @@
+@model List<Order>
+@{ ViewData["Title"] = "Quản lý đơn hàng"; }
+<h1 class="admin-title">Quản lý đơn hàng</h1><div class="panel"><table class="data-table"><thead><tr><th>Mã</th><th>Khách hàng</th><th>Ngày đặt</th><th>Tổng</th><th>Trạng thái</th><th>Thanh toán</th><th>Thao tác</th></tr></thead><tbody>
+@foreach (var o in Model) { <tr><td>#@o.OrderID</td><td>@o.CustomerName<br/><small>@o.Phone</small></td><td>@o.OrderDate.ToString("dd/MM/yyyy")</td><td class="price-text">@o.TotalAmount.ToString("N0") đ</td><td>@o.Status</td><td>@PaymentDisplay.Method(o.PaymentMethod) / @PaymentDisplay.Status(o.PaymentStatus)</td><td><div class="row-actions"><a asp-action="OrderDetails" asp-route-id="@o.OrderID">Chi tiết</a>
+<form asp-action="UpdateOrder" method="post" class="order-status"><input type="hidden" name="id" value="@o.OrderID" /><select name="status">
+@{
+    string[] choices = o.Status switch
+    {
+        "Chờ xác nhận" => new[] { "Chờ xác nhận", "Đã xác nhận", "Đã hủy" },
+        "Đã xác nhận" => new[] { "Đã xác nhận", "Đang giao", "Đã hủy" },
+        "Đang giao" => new[] { "Đang giao", "Đã giao", "Đã hủy" },
+        _ => new[] { o.Status }
+    };
+}
+@foreach (var s in choices) {
+ if (s == o.Status) { <option selected value="@s">@s</option> } else { <option value="@s">@s</option> }
+}</select>@if (o.Status != "Đã giao" && o.Status != "Đã hủy" && o.Status != "Chờ thanh toán")
+{ <button type="submit" class="btn-blue small">Lưu</button> }
+</form></div></td></tr> }
+</tbody></table></div>

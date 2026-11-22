@@ -5,51 +5,55 @@ using WebsiteBanLaptop.Models;
 
 namespace WebsiteBanLaptop.Data;
 
-// Chạy từ máy phát triển bằng lệnh --reset-admin-password, KHÔNG phải một URL.
 public static class AdminAccountSetup
 {
-    public static async Task ResetPasswordAsync(AppDbContext db, IPasswordHasher<User> hasher)
+    public static async Task ResetPasswordAsync(AppDbContext db,
+        UserManager<User> users, RoleManager<IdentityRole<int>> roles, string? expectedDatabase)
     {
-        const string database = "WebsiteBanLaptopStage01";
         var currentDatabase = db.Database.GetDbConnection().Database;
-        if (!string.Equals(currentDatabase, database, StringComparison.OrdinalIgnoreCase))
-            throw new InvalidOperationException(
-                $"Chỉ được tạo lại Admin trên database {database}. Hiện tại: {currentDatabase}.");
+        if (string.IsNullOrWhiteSpace(expectedDatabase) ||
+            !string.Equals(currentDatabase, expectedDatabase, StringComparison.OrdinalIgnoreCase))
+            throw new InvalidOperationException("Chỉ đặt lại mật khẩu Admin trên database của website.");
 
-        await db.Database.EnsureCreatedAsync();
         const string email = "admin@laptop.local";
-        var admin = await db.Users.FirstOrDefaultAsync(u => u.Email == email);
-        if (admin != null && admin.Role != "Admin")
-            throw new InvalidOperationException(
-                "Email admin@laptop.local đang thuộc tài khoản khách hàng. " +
-                "Không tự chuyển khách hàng thành Admin. Hãy kiểm tra tài khoản trước.");
+        if (!await roles.RoleExistsAsync("Admin"))
+        {
+            var created = await roles.CreateAsync(new IdentityRole<int>("Admin"));
+            if (!created.Succeeded) throw new InvalidOperationException("Không thể tạo vai trò Admin.");
+        }
+        var admin = await users.FindByEmailAsync(email);
+        if (admin != null && !await users.IsInRoleAsync(admin, "Admin"))
+            throw new InvalidOperationException("Email admin@laptop.local đã được dùng cho một tài khoản khác.");
 
+        var password = GeneratePassword();
+        IdentityResult result;
         if (admin == null)
         {
-            admin = new User
-            {
-                FullName = "Quản trị viên",
-                Email = email,
-                Role = "Admin"
-            };
-            db.Users.Add(admin);
+            admin = new User { FullName = "Quản trị viên", Email = email,
+                UserName = email, Role = "Admin" };
+            result = await users.CreateAsync(admin, password);
+            if (!result.Succeeded) throw new InvalidOperationException("Không thể tạo tài khoản Admin.");
+            result = await users.AddToRoleAsync(admin, "Admin");
         }
+        else
+        {
+            var token = await users.GeneratePasswordResetTokenAsync(admin);
+            result = await users.ResetPasswordAsync(admin, token, password);
+        }
+        if (!result.Succeeded) throw new InvalidOperationException("Không thể cập nhật mật khẩu Admin.");
+        result = await users.SetLockoutEndDateAsync(admin, null);
+        if (!result.Succeeded) throw new InvalidOperationException("Không thể mở khóa Admin.");
+        result = await users.ResetAccessFailedCountAsync(admin);
+        if (!result.Succeeded) throw new InvalidOperationException("Không thể làm mới số lần đăng nhập sai.");
 
-        var newPassword = GeneratePassword();
-        admin.PasswordHash = hasher.HashPassword(admin, newPassword);
-        await db.SaveChangesAsync();
-
-        // Xoa thong tin bien dich, log va cac thong bao cu khoi cua so lenh.
-        // Khong clear neu stdout dang duoc chuyen huong sang tep/pipe.
         if (!Console.IsOutputRedirected)
         {
             try { Console.Clear(); }
-            catch (IOException) { /* Console khong ho tro thao tac xoa man hinh. */ }
+            catch (IOException) { }
         }
-
         Console.WriteLine("Ten dang nhap: " + email);
-        Console.WriteLine("Mat khau: " + newPassword);
-        Console.WriteLine("Link truy cap: https://localhost:7281/Admin/Login");
+        Console.WriteLine("Mat khau: " + password);
+        Console.WriteLine("Link truy cap: https://localhost:7296/Admin/Login");
     }
 
     private static string GeneratePassword()

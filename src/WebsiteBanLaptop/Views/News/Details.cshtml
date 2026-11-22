@@ -1,0 +1,4 @@
+@model News
+@{ ViewData["Title"] = Model.Title; }
+<div class="breadcrumbs"><a asp-action="Index">Tin tức</a> / @Model.Title</div>
+<article class="article-content"><h1>@Model.Title</h1><small>@Model.CreatedAt.ToString("dd/MM/yyyy")</small><p style="white-space:pre-line">@Model.Content</p></article>

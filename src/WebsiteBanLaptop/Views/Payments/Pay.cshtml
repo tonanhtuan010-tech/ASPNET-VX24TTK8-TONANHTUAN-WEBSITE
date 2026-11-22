@@ -1,0 +1,15 @@
+@model WebsiteBanLaptop.Models.Order
+@{ ViewData["Title"] = "Tiếp tục thanh toán"; }
+<div class="success-box"><h1>Thanh toán đơn #@Model.OrderID</h1>
+  <p>Hình thức: <strong>@PaymentDisplay.Method(Model.PaymentMethod)</strong></p>
+  <p>Số tiền: <strong>@Model.TotalAmount.ToString("N0") đ</strong></p>
+  <p>Trạng thái: @Model.Status</p>
+  @if (Model.PaymentExpiresAtUtc <= DateTime.UtcNow) {
+    <p>Phiên thanh toán đã hết hạn. Vui lòng liên hệ quản trị viên để kiểm tra đơn hàng.</p>
+  } else {
+    <form method="post" asp-controller="Payments" asp-action="PayNow" asp-route-id="@Model.OrderID">
+      <button type="submit" class="btn-red">Chuyển đến cổng @PaymentDisplay.Method(Model.PaymentMethod)</button>
+    </form>
+  }
+  <a class="btn-light" asp-controller="Account" asp-action="OrderDetails" asp-route-id="@Model.OrderID">Xem đơn hàng</a>
+</div>

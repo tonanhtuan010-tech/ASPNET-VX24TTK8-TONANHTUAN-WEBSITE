@@ -1,0 +1,37 @@
+@model Product
+@{ bool isEdit = Model.ProductID > 0; ViewData["Title"] = isEdit ? "Sửa sản phẩm" : "Thêm sản phẩm"; }
+<h1 class="admin-title">@(isEdit ? "Sửa sản phẩm" : "Thêm sản phẩm")</h1>
+<div class="panel form-panel"><form id="product-form" asp-action="@(isEdit ? "EditProduct" : "AddProduct")" asp-route-id="@Model.ProductID" method="post" enctype="multipart/form-data">
+@if (!ViewData.ModelState.IsValid)
+{
+  <div class="alert bad" role="alert" style="margin-bottom:12px;">
+    <strong>Không lưu được sản phẩm. Vui lòng kiểm tra:</strong>
+    <div asp-validation-summary="All" class="field-error" style="margin-top:8px;"></div>
+  </div>
+}
+<div id="product-client-warning" class="alert bad" role="alert" style="display:none; margin-bottom:12px;"></div>
+<div class="form-grid">
+  <div><label>Tên laptop</label><input asp-for="Name" /><span asp-validation-for="Name" class="field-error"></span></div>
+  <div><label>Hãng</label><select asp-for="CategoryID" asp-items="ViewBag.Categories"></select><span asp-validation-for="CategoryID" class="field-error"></span></div>
+  <div><label>Giá bán (đồng)</label><input asp-for="Price" type="number" min="1000" step="1000" /><span asp-validation-for="Price" class="field-error"></span></div>
+  <div><label>Số lượng còn</label><input asp-for="Stock" type="number" min="0" /><span asp-validation-for="Stock" class="field-error"></span></div>
+  <div><label>CPU</label><input asp-for="Cpu" /><span asp-validation-for="Cpu" class="field-error"></span></div><div><label>RAM</label><input asp-for="Ram" /><span asp-validation-for="Ram" class="field-error"></span></div>
+  <div><label>Ổ cứng</label><input asp-for="Storage" /><span asp-validation-for="Storage" class="field-error"></span></div><div><label>Card đồ họa</label><input asp-for="Graphics" /><span asp-validation-for="Graphics" class="field-error"></span></div>
+  <div><label>Màn hình</label><input asp-for="Screen" /><span asp-validation-for="Screen" class="field-error"></span></div><div><label>Đường dẫn ảnh (có thể để trống)</label><input asp-for="ImageUrl" /><span asp-validation-for="ImageUrl" class="field-error"></span></div>
+  <div><label>Chọn ảnh từ máy (JPG, PNG, WEBP)</label><input type="file" name="photo" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" /></div>
+  <div class="full-col"><label>Mô tả</label><textarea asp-for="Description" rows="5"></textarea><span asp-validation-for="Description" class="field-error"></span></div>
+</div><div class="form-actions"><button type="submit" class="btn-blue">Lưu sản phẩm</button><a asp-action="Products" class="btn-light">Quay lại</a></div>
+</form></div>
+
+<script>
+(function () {
+  const form = document.getElementById("product-form");
+  const warning = document.getElementById("product-client-warning");
+  if (!form || !warning) return;
+  form.addEventListener("invalid", function (event) {
+    if (!event.target || !event.target.name) return;
+    warning.textContent = "Biểu mẫu chưa hợp lệ. Hãy kiểm tra trường được trình duyệt đánh dấu và thử lại.";
+    warning.style.display = "block";
+  }, true);
+})();
+</script>

@@ -23,3 +23,7 @@
 # Nội dung v0.5
 
 - thêm chức năng giỏ hàng, tạo tài khoản, đặt hàng và theo dõi đơn hàng
+
+# Nội dung v1.0
+
+- hoàn thiện cách chức năng website

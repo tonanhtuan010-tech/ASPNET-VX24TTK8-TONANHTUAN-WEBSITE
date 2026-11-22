@@ -1,0 +1,10 @@
+@model List<CartLine>
+@{ ViewData["Title"] = "Giỏ hàng"; }
+<div class="breadcrumbs">Trang chủ / Giỏ hàng</div><h1 class="page-title">Giỏ hàng của bạn</h1>
+<section id="cart-content">
+  @await Html.PartialAsync("_CartBody", Model)
+</section>
+@section Scripts {
+  <script src="~/lib/jquery/jquery.min.js" asp-append-version="true"></script>
+  <script src="~/js/cart-ajax.js" asp-append-version="true"></script>
+}

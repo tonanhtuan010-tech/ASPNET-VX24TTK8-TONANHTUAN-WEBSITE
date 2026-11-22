@@ -1,0 +1,5 @@
+@model List<WebsiteBanLaptop.Controllers.StockRow>
+@{ ViewData["Title"] = "Tồn kho"; double max = (int)ViewBag.Max; }
+<h1 class="admin-title">Báo cáo tồn kho</h1><div class="panel"><h2>Số lượng laptop theo hãng</h2>
+<div class="bar-list">@foreach (var row in Model) { <div class="bar-row"><span>@row.Name</span><div class="bar-track"><div class="bar-fill" style="width:@((row.Quantity/max*100).ToString("F0",System.Globalization.CultureInfo.InvariantCulture))%"></div></div><b>@row.Quantity</b></div> }</div>
+</div>

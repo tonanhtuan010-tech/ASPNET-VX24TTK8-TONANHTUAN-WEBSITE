@@ -10,6 +10,12 @@
     <div class="product-price">@Model.Price.ToString("N0") đ</div>
     <div class="card-bottom">
       <span class="stock @(Model.Stock > 0 ? "" : "soldout")">@(Model.Stock > 0 ? "Còn hàng" : "Hết hàng")</span>
+      @if (Model.Stock > 0) {
+        <form asp-controller="Cart" asp-action="Add" method="post">
+          <input type="hidden" name="productId" value="@Model.ProductID" />
+          <button type="submit" class="small-red">+ Giỏ hàng</button>
+        </form>
+      }
     </div>
   </div>
 </article>

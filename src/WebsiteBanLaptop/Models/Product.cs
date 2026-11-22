@@ -46,4 +46,6 @@ public class Product
     public string Screen { get; set; } = "";
 
     public Category? Category { get; set; }
+    public List<OrderDetail> OrderDetails { get; set; } = new();
+    public List<ProductReview> Reviews { get; set; } = new();
 }

@@ -1,0 +1,42 @@
+@model List<WebsiteBanLaptop.Controllers.MonthlyRevenueRow>
+@{ ViewData["Title"] = "Doanh thu";
+   var top = (List<WebsiteBanLaptop.Controllers.BestSellerRow>)ViewBag.TopProducts;
+   var daily = (List<WebsiteBanLaptop.Controllers.DailyRevenueRow>)ViewBag.DailyRows;
+}
+<h1 class="admin-title">Báo cáo doanh thu</h1>
+<div class="panel">
+    <div class="toolbar"><h2>Doanh thu đơn đã giao theo tháng</h2><a class="btn-blue" asp-action="ExportRevenue">Xuất CSV (Excel)</a></div>
+    <p class="revenue-total">Tổng doanh thu: <strong>@(((decimal)ViewBag.Total).ToString("N0")) đ</strong></p>
+    @if (!Model.Any()) { <div class="empty-box">Chưa có đơn hàng đã giao.</div> }
+    else
+    {
+        <table class="data-table">
+            <thead><tr><th>Tháng đặt</th><th>Số đơn</th><th>Doanh thu</th></tr></thead>
+            <tbody>
+            @foreach (var row in Model)
+            {
+                <tr><td>@row.Month.ToString("D2")/@row.Year</td><td>@row.OrderCount</td><td>@row.Total.ToString("N0") đ</td></tr>
+            }
+            </tbody>
+        </table>
+    }
+</div>
+<div class="panel">
+    <h2>5 laptop bán chạy</h2>
+    @if (!top.Any()) { <p class="hint">Chưa có dữ liệu bán hàng.</p> }
+    else
+    {
+        <table class="data-table"><thead><tr><th>Laptop</th><th>Số lượng đã bán</th></tr></thead>
+        <tbody>@foreach (var row in top) { <tr><td>@row.Name</td><td>@row.Quantity</td></tr> }</tbody></table>
+    }
+</div>
+
+<div class="panel">
+  <div class="toolbar"><h2>Doanh thu đơn đã giao theo ngày</h2><a class="btn-blue" asp-action="ExportRevenueDaily">Xuất CSV theo ngày</a></div>
+  @if (daily.Count == 0) { <p>Chưa có số liệu.</p> }
+  else {
+    <table class="data-table"><thead><tr><th>Ngày đặt</th><th>Số đơn</th><th>Doanh thu</th></tr></thead><tbody>
+    @foreach (var row in daily) { <tr><td>@row.Day.ToString("D2")/@row.Month.ToString("D2")/@row.Year</td><td>@row.OrderCount</td><td>@row.Total.ToString("N0") đ</td></tr> }
+    </tbody></table>
+  }
+</div>

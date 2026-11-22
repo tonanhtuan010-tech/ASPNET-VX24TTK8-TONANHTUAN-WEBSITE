@@ -1,0 +1,76 @@
+@model List<StaffTask>
+@{ ViewData["Title"] = "Giao việc"; }
+
+<h1 class="admin-title">Giao việc</h1>
+<div class="panel form-panel">
+    <h2>Thêm công việc</h2>
+    <form asp-controller="Admin" asp-action="AddTask" method="post">
+        <div class="form-grid">
+            <div>
+                <label>Tên công việc</label>
+                <input name="Title" required maxlength="150" placeholder="Nhập tên công việc" />
+            </div>
+            <div>
+                <label>Giao cho nhân viên</label>
+                <input name="AssignedTo" required maxlength="100" placeholder="Tên nhân viên" />
+            </div>
+            <div>
+                <label>Hạn hoàn thành</label>
+                <input name="Deadline" type="date" />
+            </div>
+            <div class="full-col">
+                <label>Nội dung</label>
+                <textarea name="Description" rows="3"></textarea>
+            </div>
+        </div>
+        <button type="submit" class="btn-blue">Giao việc</button>
+    </form>
+</div>
+
+<div class="panel" id="danh-sach-cong-viec" style="scroll-margin-top:20px">
+    <h2>Danh sách công việc</h2>
+    @if (TempData["TaskOk"] is string taskOk)
+    {
+        <div class="alert good" role="status">@taskOk</div>
+    }
+    @if (TempData["TaskError"] is string taskError)
+    {
+        <div class="alert bad" role="alert">@taskError</div>
+    }
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Công việc</th>
+                <th>Người nhận</th>
+                <th>Hạn</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var t in Model)
+        {
+            <tr>
+                <td><b>@t.Title</b><br /><small>@t.Description</small></td>
+                <td>@t.AssignedTo</td>
+                <td>@(t.Deadline?.ToString("dd/MM/yyyy") ?? "-")</td>
+                <td><strong>@(t.IsDone ? "Đã xong" : "Chưa xong")</strong></td>
+                <td>
+                    <div class="row-actions" style="flex-wrap:wrap;gap:10px">
+                        <form asp-controller="Admin" asp-action="ToggleTask" method="post" asp-antiforgery="true">
+                            <input type="hidden" name="id" value="@t.StaffTaskID" />
+                            <button type="submit" class="btn-blue small" style="min-height:36px;padding:8px 13px" title="Chuyển trạng thái công việc">
+                                @(t.IsDone ? "Đánh dấu chưa xong" : "Đánh dấu đã xong")
+                            </button>
+                        </form>
+                        <form asp-controller="Admin" asp-action="DeleteTask" method="post" asp-antiforgery="true">
+                            <input type="hidden" name="id" value="@t.StaffTaskID" />
+                            <button type="submit" class="link-danger" style="min-height:36px;padding:8px 4px" onclick="return confirm('Bạn muốn xóa công việc này?');">Xóa</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,11 @@
+@model User
+@{ ViewData["Title"] = "Thông tin tài khoản"; }
+<div class="breadcrumbs">Trang chủ / Thông tin tài khoản</div>
+<h1 class="page-title">Thông tin tài khoản</h1>
+<div class="profile-panel"><form asp-action="Profile" method="post">
+  <label>Họ tên</label><input name="fullName" value="@Model.FullName" required maxlength="100" />
+  <label>Email</label><input value="@Model.Email" readonly />
+  <label>Số điện thoại</label><input name="phone" value="@Model.PhoneNumber" maxlength="20" />
+  <label>Địa chỉ</label><textarea name="address" maxlength="300">@Model.Address</textarea>
+  <div class="form-actions"><button type="submit" class="btn-red">Lưu thông tin</button><a asp-action="Orders" class="btn-light">Đơn hàng của tôi</a></div>
+</form></div>

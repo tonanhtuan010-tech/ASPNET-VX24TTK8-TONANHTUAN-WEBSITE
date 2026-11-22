@@ -1,0 +1,9 @@
+@model News
+@{ bool isEdit = Model.NewsID > 0; ViewData["Title"] = isEdit ? "Sửa tin tức" : "Thêm tin tức"; }
+<h1 class="admin-title">@(isEdit ? "Sửa tin tức" : "Thêm tin tức")</h1>
+<div class="panel form-panel"><form asp-action="@(isEdit ? "EditNews" : "AddNews")" asp-route-id="@Model.NewsID" method="post">
+<div asp-validation-summary="ModelOnly" class="field-error"></div>
+<label>Tiêu đề</label><input asp-for="Title" /><span asp-validation-for="Title" class="field-error"></span>
+<label>Nội dung</label><textarea asp-for="Content" rows="9"></textarea><span asp-validation-for="Content" class="field-error"></span>
+<div class="form-actions"><button class="btn-blue" type="submit">Lưu tin tức</button><a asp-action="News" class="btn-light">Quay lại</a></div>
+</form></div>

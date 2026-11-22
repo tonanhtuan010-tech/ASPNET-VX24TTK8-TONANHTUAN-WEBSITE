@@ -13,7 +13,7 @@ public class HomeController : Controller
     private IQueryable<Product> Filter(string? search, int? categoryId, string? priceRange,
         string? usage, string? sort, string? cpu, string? ram)
     {
-        var query = _db.Products.Include(p => p.Category).AsQueryable();
+        var query = _db.Products.AsNoTracking().Include(p => p.Category).AsQueryable();
         if (!string.IsNullOrWhiteSpace(search))
             query = query.Where(p => p.Name.Contains(search.Trim()));
         if (categoryId.HasValue)
@@ -51,7 +51,7 @@ public class HomeController : Controller
     private async Task LoadFilters(string? search, int? categoryId, string? priceRange,
         string? usage, string? sort, string? cpu, string? ram)
     {
-        ViewBag.Categories = await _db.Categories.OrderBy(c => c.CategoryName).ToListAsync();
+        ViewBag.Categories = await _db.Categories.AsNoTracking().OrderBy(c => c.CategoryName).ToListAsync();
         ViewBag.Search = search;
         ViewBag.CategoryId = categoryId;
         ViewBag.PriceRange = priceRange;

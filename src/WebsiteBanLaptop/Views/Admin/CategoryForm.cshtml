@@ -1,0 +1,12 @@
+@model Category
+@{ bool isEdit = Model.CategoryID > 0; ViewData["Title"] = isEdit ? "Sửa danh mục" : "Thêm danh mục"; }
+<h1 class="admin-title">@(isEdit ? "Sửa danh mục" : "Thêm danh mục")</h1>
+<div class="panel form-panel">
+    <form asp-action="@(isEdit ? "EditCategory" : "AddCategory")" asp-route-id="@Model.CategoryID" method="post">
+        <div asp-validation-summary="ModelOnly" class="field-error"></div>
+        <label>Tên hãng laptop</label>
+        <input asp-for="CategoryName" placeholder="Ví dụ: ASUS" />
+        <span asp-validation-for="CategoryName" class="field-error"></span>
+        <div class="form-actions"><button class="btn-blue" type="submit">Lưu</button><a asp-action="Categories" class="btn-light">Quay lại</a></div>
+    </form>
+</div>

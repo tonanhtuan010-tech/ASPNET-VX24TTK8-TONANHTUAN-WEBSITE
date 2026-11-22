@@ -1,0 +1,6 @@
+@model List<News>
+@{ ViewData["Title"] = "Quản lý tin tức"; }
+<h1 class="admin-title">Quản lý tin tức</h1><div class="panel"><div class="toolbar"><h2>Danh sách tin tức</h2><a asp-action="AddNews" class="btn-blue">+ Thêm tin tức</a></div>
+<table class="data-table"><thead><tr><th>Mã</th><th>Tiêu đề</th><th>Ngày đăng</th><th>Thao tác</th></tr></thead><tbody>
+@foreach (var n in Model) { <tr><td>@n.NewsID</td><td>@n.Title</td><td>@n.CreatedAt.ToString("dd/MM/yyyy")</td><td><div class="row-actions"><a asp-action="EditNews" asp-route-id="@n.NewsID">Sửa</a><form asp-action="DeleteNews" method="post" onsubmit="return confirm('Xóa tin tức?')"><input type="hidden" name="id" value="@n.NewsID" /><button type="submit" class="link-danger">Xóa</button></form></div></td></tr> }
+</tbody></table></div>

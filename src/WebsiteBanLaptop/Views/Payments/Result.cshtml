@@ -1,0 +1,13 @@
+@model WebsiteBanLaptop.Models.Order
+@{ ViewData["Title"] = "Kết quả thanh toán"; }
+<div class="success-box">
+    <h1>Trạng thái thanh toán đơn #@Model.OrderID</h1>
+    <p>Phương thức: <strong>@PaymentDisplay.Method(Model.PaymentMethod)</strong></p>
+    <p>Tổng tiền: <strong>@Model.TotalAmount.ToString("N0") đ</strong></p>
+    <p>Trạng thái thanh toán: <strong>@PaymentDisplay.Status(Model.PaymentStatus)</strong></p>
+    <p>Trạng thái đơn: @Model.Status</p>
+    @if (Model.PaymentStatus == "Pending") {
+        <a class="btn-light" asp-action="Result" asp-route-reference="@Model.PaymentReference">Tải lại trạng thái</a>
+    }
+    <div class="form-actions"><a class="btn-red" asp-controller="Account" asp-action="OrderDetails" asp-route-id="@Model.OrderID">Chi tiết đơn hàng</a><a class="btn-light" asp-controller="Home" asp-action="Index">Trang chủ</a></div>
+</div>

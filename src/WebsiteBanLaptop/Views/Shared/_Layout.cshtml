@@ -4,39 +4,48 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>@ViewData["Title"] - Laptop Store</title>
+  <link rel="stylesheet" href="~/lib/bootstrap-icons/bootstrap-icons.min.css" />
   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-  <link rel="stylesheet" href="~/css/site-v2.css" asp-append-version="true" />
 </head>
-@inject WebsiteBanLaptop.Data.AppDbContext AppDb
+@inject WebsiteBanLaptop.Services.CategoryMenuService CategoryMenu
 @{
-  var menuCategories = AppDb.Categories.OrderBy(c => c.CategoryName).ToList();
+  var menuCategories = await CategoryMenu.GetAsync();
 }
 <body>
   <header class="site-header">
     <div class="wrap head-row">
-      <a class="logo" asp-controller="Home" asp-action="Index"><span class="logo-mark">▣</span> LAPTOP <b>STORE</b></a>
+      <a class="logo" asp-controller="Home" asp-action="Index"><span class="logo-mark"><i class="bi bi-laptop" aria-hidden="true"></i></span> LAPTOP <b>STORE</b></a>
       <form class="search-header" asp-controller="Home" asp-action="Index" method="get">
         <input name="search" value="@ViewBag.Search" placeholder="Bạn cần tìm laptop gì?" aria-label="Tìm sản phẩm" />
         <button type="submit">Tìm kiếm</button>
       </form>
-      <div class="head-links"><span class="hotline">☎ <small>Hỗ trợ</small><b>Laptop Store</b></span>
+      <div class="head-links">
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+          <a asp-controller="Account" asp-action="Profile"><i class="bi bi-person" aria-hidden="true"></i> Tài khoản</a>
+          <a asp-controller="Account" asp-action="Orders">Đơn hàng</a>
+          <form asp-controller="Account" asp-action="Logout" method="post" class="logout-inline"><button type="submit">Đăng xuất</button></form>
+        }
+        else { <a asp-controller="Account" asp-action="Login"><i class="bi bi-person" aria-hidden="true"></i> Đăng nhập</a> }
+        <a asp-controller="Cart" asp-action="Index"><i class="bi bi-cart3" aria-hidden="true"></i> Giỏ hàng <span class="cart-badge">@WebsiteBanLaptop.Data.CartStore.Get(Context.Session).Sum(c => c.Quantity)</span></a>
       </div>
     </div>
   </header>
   <nav class="nav-line">
     <div class="wrap nav-inner">
-      <button id="category-toggle" class="nav-strong" type="button" aria-controls="category-menu" aria-expanded="false">☰ &nbsp; DANH MỤC LAPTOP ⌄</button>
+      <button id="category-toggle" class="nav-strong" type="button" aria-controls="category-menu" aria-expanded="false"><i class="bi bi-list" aria-hidden="true"></i> DANH MỤC LAPTOP <i class="bi bi-chevron-down" aria-hidden="true"></i></button>
       <a asp-controller="Home" asp-action="Index">Trang chủ</a>
       <a asp-controller="Home" asp-action="Index" asp-route-sort="low">Laptop giá tốt</a>
+      <a asp-controller="News" asp-action="Index">Tin tức</a>
     </div>
   </nav>
   <section class="mega-shell" id="category-menu" hidden aria-label="Danh mục laptop">
     <div class="wrap mega-grid">
       <div class="mega-left"><h3>Danh mục laptop</h3>
-        <a asp-controller="Home" asp-action="Index">▣ Tất cả laptop</a>
+        <a asp-controller="Home" asp-action="Index"><i class="bi bi-grid" aria-hidden="true"></i> Tất cả laptop</a>
         @foreach (var item in menuCategories)
         {
-          <a asp-controller="Home" asp-action="Index" asp-route-categoryId="@item.CategoryID">▸ Laptop @item.CategoryName</a>
+          <a asp-controller="Home" asp-action="Index" asp-route-categoryId="@item.CategoryID"><i class="bi bi-chevron-right" aria-hidden="true"></i> Laptop @item.CategoryName</a>
         }
       </div>
       <div class="mega-center"><h3>Gợi ý chọn laptop</h3>
@@ -53,10 +62,10 @@
         <div class="mega-row-links"><a asp-controller="Home" asp-action="Index" asp-route-priceRange="under20">Dưới 20 triệu</a><a asp-controller="Home" asp-action="Index" asp-route-priceRange="20-25">20–25 triệu</a><a asp-controller="Home" asp-action="Index" asp-route-priceRange="25-30">25–30 triệu</a><a asp-controller="Home" asp-action="Index" asp-route-priceRange="30-40">30–40 triệu</a><a asp-controller="Home" asp-action="Index" asp-route-priceRange="over40">Trên 40 triệu</a></div>
       </div>
       <div class="mega-right"><h3>Khám phá thêm</h3>
-        <a asp-controller="Home" asp-action="Index" asp-route-sort="low">↗ Laptop giá tốt</a>
-        <a asp-controller="Home" asp-action="Index" asp-route-sort="high">↗ Laptop cao cấp</a>
-        <a asp-controller="Home" asp-action="Index" asp-route-usage="gaming">↗ Laptop gaming</a>
-        <p>Chọn một mục để xem sản phẩm ngay trên trang chủ.</p>
+        <a asp-controller="Home" asp-action="Index" asp-route-sort="low"><i class="bi bi-tag" aria-hidden="true"></i> Laptop giá tốt</a>
+        <a asp-controller="Home" asp-action="Index" asp-route-sort="high"><i class="bi bi-gem" aria-hidden="true"></i> Laptop cao cấp</a>
+        <a asp-controller="Home" asp-action="Index" asp-route-usage="gaming"><i class="bi bi-controller" aria-hidden="true"></i> Laptop gaming</a>
+        <a asp-controller="Cart" asp-action="Index"><i class="bi bi-cart3" aria-hidden="true"></i> Xem giỏ hàng</a>
       </div>
     </div>
   </section>
@@ -67,9 +76,8 @@
   </main>
   <footer class="site-footer">
     <div class="wrap footer-grid">
-      <div><h3>LAPTOP STORE</h3><p>Website bán laptop</p><small>Giá sản phẩm là dữ liệu tham khảo để thực hành.</small></div>
-      <div><b>Thông tin</b><p><a asp-controller="Home" asp-action="Index">Sản phẩm</a></p></div>
-      <div><b>Hỗ trợ</b><p>Laptop Store</p><p></p></div>
+      <div><h3>LAPTOP STORE</h3><p>Website bán laptop</p></div>
+      <div><b>Thông tin</b><p><a asp-controller="Home" asp-action="Index">Sản phẩm</a></p><p><a asp-controller="News" asp-action="Index">Tin tức</a></p></div>
     </div>
   </footer>
   <script>

@@ -1,0 +1,4 @@
+@model List<News>
+@{ ViewData["Title"] = "Tin tức"; }
+<div class="breadcrumbs">Trang chủ / Tin tức</div><h1 class="page-title">Tin tức laptop</h1>
+<div class="news-list">@foreach (var n in Model) { <article class="news-card"><h2><a asp-action="Details" asp-route-id="@n.NewsID">@n.Title</a></h2><small>@n.CreatedAt.ToString("dd/MM/yyyy")</small><p>@(n.Content.Length > 140 ? n.Content.Substring(0,140) + "..." : n.Content)</p><a asp-action="Details" asp-route-id="@n.NewsID">Xem thêm <i class="bi bi-arrow-right" aria-hidden="true"></i></a></article> }</div>

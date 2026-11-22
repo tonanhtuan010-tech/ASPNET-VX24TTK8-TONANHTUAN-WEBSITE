@@ -1,16 +1,7 @@
 @model List<Product>
 @{ ViewData["Title"] = "Quản lý sản phẩm"; }
 <h1 class="admin-title">Quản lý sản phẩm</h1>
-<div class="panel">
-  <form method="get" asp-action="Products" class="inline-search"><input name="search" value="@ViewBag.Search" placeholder="Tìm sản phẩm" /><button type="submit">Tìm</button></form>
-  <table class="data-table">
-    <thead><tr><th>Mã</th><th>Sản phẩm</th><th>Hãng</th><th>Giá bán</th><th>Số lượng</th></tr></thead>
-    <tbody>
-      @foreach (var p in Model)
-      {
-        <tr><td>@p.ProductID</td><td class="name-cell">@p.Name</td>
-            <td>@p.Category?.CategoryName</td><td>@p.Price.ToString("N0") đ</td><td>@p.Stock</td></tr>
-      }
-    </tbody>
-  </table>
+<div class="panel"><div class="toolbar"><form method="get" asp-action="Products" class="inline-search"><input name="search" value="@ViewBag.Search" placeholder="Tìm sản phẩm" /><button type="submit">Tìm</button></form><a class="btn-blue" asp-action="AddProduct">+ Thêm sản phẩm</a></div>
+<table class="data-table"><thead><tr><th>Mã</th><th>Sản phẩm</th><th>Hãng</th><th>Giá bán</th><th>Số lượng</th><th>Thao tác</th></tr></thead>
+<tbody>@foreach (var p in Model) { <tr><td>@p.ProductID</td><td class="name-cell">@p.Name</td><td>@p.Category?.CategoryName</td><td>@p.Price.ToString("N0") đ</td><td>@p.Stock</td><td><div class="row-actions"><a asp-action="EditProduct" asp-route-id="@p.ProductID">Sửa</a><form asp-action="DeleteProduct" method="post" onsubmit="return confirm('Xóa sản phẩm này?')"><input type="hidden" name="id" value="@p.ProductID" /><button class="link-danger" type="submit">Xóa</button></form></div></td></tr> }</tbody></table>
 </div>

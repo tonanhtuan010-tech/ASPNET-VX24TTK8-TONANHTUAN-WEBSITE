@@ -10,3 +10,7 @@
 *.log
 appsettings.Development.json
 **/wwwroot/uploads/
+appsettings.Production.json
+.env
+.env.*
+**/secrets*.json

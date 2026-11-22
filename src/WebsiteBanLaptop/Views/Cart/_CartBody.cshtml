@@ -1,0 +1,14 @@
+@model List<CartLine>
+@{ var total = Model.Sum(x => x.Amount); }
+@if (!Model.Any()) { <div class="empty-box"><h2>Giỏ hàng đang trống</h2><p>Hãy chọn một chiếc laptop phù hợp nhé.</p><a asp-controller="Home" asp-action="Index" class="btn-red">Xem sản phẩm</a></div> }
+else {
+<div class="checkout-layout"><div class="table-panel"><table class="data-table"><thead><tr><th>Sản phẩm</th><th>Đơn giá</th><th>Số lượng</th><th>Thành tiền</th><th></th></tr></thead>
+<tbody>@foreach (var line in Model) { <tr>
+  <td><div class="cart-product"><img src="@line.Product.ImageUrl" alt="" onerror="this.onerror=null;this.src='/images/laptop-default.svg'" /><a asp-controller="Products" asp-action="Details" asp-route-id="@line.Product.ProductID">@line.Product.Name</a></div></td>
+  <td>@line.Product.Price.ToString("N0") đ</td>
+  <td><form asp-action="Update" method="post" class="qty-form js-cart-form"><input type="hidden" name="productId" value="@line.Product.ProductID" /><input type="number" name="quantity" min="0" max="@Math.Min(10,line.Product.Stock)" value="@line.Quantity" /><button type="submit">Sửa</button></form></td>
+  <td class="price-text">@line.Amount.ToString("N0") đ</td>
+  <td><form asp-action="Remove" method="post" class="js-cart-form"><input type="hidden" name="productId" value="@line.Product.ProductID" /><button class="link-danger" type="submit">Xóa</button></form></td>
+</tr> }</tbody></table></div>
+<div class="summary-card"><h3>Tổng tiền giỏ hàng</h3><p>Đã chọn @Model.Sum(x => x.Quantity) sản phẩm</p><div class="summary-line"><span>Tổng cộng</span><strong>@total.ToString("N0") đ</strong></div><a class="btn-red block" asp-action="Checkout">Tiến hành thanh toán</a><a class="btn-light block" asp-controller="Home" asp-action="Index">Tiếp tục mua hàng</a></div>
+</div> }

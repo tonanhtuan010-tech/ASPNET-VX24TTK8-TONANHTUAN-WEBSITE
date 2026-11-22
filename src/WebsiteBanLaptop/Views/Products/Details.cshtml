@@ -6,13 +6,43 @@
   <div class="detail-main">
     <span class="product-tag">@Model.Category?.CategoryName</span>
     <h1>@Model.Name</h1>
-    <div class="ratings">★ ★ ★ ★ ★ <span>Thông tin sản phẩm</span></div>
+    <div class="ratings">@(ViewBag.AverageRating == null ? "Chưa có đánh giá" : $"{((double)ViewBag.AverageRating):0.0}/5 sao · {Model.Reviews.Count} đánh giá")</div>
     <div class="detail-price">@Model.Price.ToString("N0") đ</div>
     <p class="detail-stock">@(Model.Stock > 0 ? $"Còn {Model.Stock} sản phẩm" : "Hết hàng")</p>
     <div class="spec-short"><div>CPU: <b>@Model.Cpu</b></div><div>RAM: <b>@Model.Ram</b></div><div>Ổ cứng: <b>@Model.Storage</b></div><div>Màn hình: <b>@Model.Screen</b></div></div>
-
+    @if (Model.Stock > 0) {
+      <form class="detail-cart" asp-controller="Cart" asp-action="Add" method="post">
+        <input type="hidden" name="productId" value="@Model.ProductID" />
+        <label>Số lượng <input type="number" name="quantity" value="1" min="1" max="@Math.Min(10,Model.Stock)" /></label>
+        <button type="submit">Thêm vào giỏ hàng</button>
+      </form>
+    }
   </div>
 </div>
 <div class="detail-description"><h2>Thông tin sản phẩm</h2><p>@Model.Description</p>
   <h3>Thông số kỹ thuật</h3><table class="spec-table"><tr><td>Bộ xử lý</td><td>@Model.Cpu</td></tr><tr><td>RAM</td><td>@Model.Ram</td></tr><tr><td>Ổ cứng</td><td>@Model.Storage</td></tr><tr><td>Đồ họa</td><td>@Model.Graphics</td></tr><tr><td>Màn hình</td><td>@Model.Screen</td></tr></table>
 </div>
+<section class="review-panel">
+  <h2>Đánh giá từ khách đã mua hàng (@Model.Reviews.Count)</h2>
+  @if (ViewBag.CanReview == true) {
+    <form asp-controller="Products" asp-action="Review" method="post" class="review-form">
+      <input type="hidden" name="productId" value="@Model.ProductID" />
+      <label>Số sao
+        <select name="rating" required><option value="5">★★★★★ (5 sao)</option><option value="4">★★★★ (4 sao)</option><option value="3">★★★ (3 sao)</option><option value="2">★★ (2 sao)</option><option value="1">★ (1 sao)</option></select>
+      </label>
+      <label>Nhận xét
+        <textarea name="comment" rows="4" minlength="10" maxlength="800" required></textarea>
+      </label>
+      <button class="btn-red" type="submit">Gửi đánh giá</button>
+    </form>
+  } else if (User.Identity?.IsAuthenticated == true) {
+    <p>Chỉ khách hàng đã nhận được sản phẩm và chưa đánh giá mới có thể gửi đánh giá.</p>
+  }
+  @if (Model.Reviews.Count == 0) { <p>Chưa có nhận xét.</p> }
+  @foreach (var review in Model.Reviews.OrderByDescending(r => r.CreatedAtUtc)) {
+    <div class="review-item"><b>@(new string('★', review.Rating))@(new string('☆', 5 - review.Rating))</b>
+      <small>Khách đã mua hàng · @review.CreatedAtUtc.ToString("dd/MM/yyyy")</small>
+      <p>@review.Comment</p>
+    </div>
+  }
+</section>

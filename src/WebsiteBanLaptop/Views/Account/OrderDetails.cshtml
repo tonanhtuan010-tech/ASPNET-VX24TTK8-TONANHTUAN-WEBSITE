@@ -1,0 +1,6 @@
+@model Order
+@{ ViewData["Title"] = "Chi tiết đơn hàng"; }
+<h1 class="page-title">Đơn hàng #@Model.OrderID</h1><div class="checkout-layout">
+<div class="table-panel"><table class="data-table"><thead><tr><th>Sản phẩm</th><th>Số lượng</th><th>Thành tiền</th></tr></thead>
+<tbody>@foreach (var d in Model.OrderDetails) { <tr><td>@d.Product?.Name</td><td>@d.Quantity</td><td>@((d.UnitPrice*d.Quantity).ToString("N0")) đ</td></tr> }</tbody></table></div>
+<div class="summary-card"><h3>Thông tin đơn hàng</h3><p><b>Ngày đặt:</b> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p><p><b>Trạng thái:</b> @Model.Status</p><p><b>Họ tên:</b> @Model.CustomerName</p><p><b>SĐT:</b> @Model.Phone</p><p><b>Địa chỉ:</b> @Model.Address</p><p><b>Hình thức thanh toán:</b> @PaymentDisplay.Method(Model.PaymentMethod)</p><p><b>Trạng thái thanh toán:</b> @PaymentDisplay.Status(Model.PaymentStatus)</p>@if (Model.PaymentStatus == "Pending" && Model.PaymentExpiresAtUtc > DateTime.UtcNow) { <a class="btn-light" asp-controller="Payments" asp-action="Pay" asp-route-id="@Model.OrderID">Tiếp tục thanh toán</a> }<h3>@Model.TotalAmount.ToString("N0") đ</h3></div></div>

@@ -1,14 +1,22 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebsiteBanLaptop.Models;
 
-public class User
+public class User : IdentityUser<int>
 {
-    public int UserID { get; set; }
+    [NotMapped]
+    public int UserID { get => Id; set => Id = value; }
+
     [Required, MaxLength(100)]
     public string FullName { get; set; } = "";
-    [Required, EmailAddress, MaxLength(150)]
-    public string Email { get; set; } = "";
-    public string PasswordHash { get; set; } = "";
+
+    [MaxLength(300)]
+    public string? Address { get; set; }
+
+    [Required, MaxLength(20)]
     public string Role { get; set; } = "Customer";
+
+    public List<Order> Orders { get; set; } = new();
 }

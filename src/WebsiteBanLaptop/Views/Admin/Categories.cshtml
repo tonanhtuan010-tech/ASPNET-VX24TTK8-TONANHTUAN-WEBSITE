@@ -1,0 +1,23 @@
+@model List<Category>
+@{ ViewData["Title"] = "Danh mục laptop"; }
+<h1 class="admin-title">Quản lý danh mục laptop</h1>
+<div class="panel">
+    <div class="toolbar"><h2>Danh sách hãng</h2><a class="btn-blue" asp-action="AddCategory">+ Thêm danh mục</a></div>
+    <table class="data-table">
+        <thead><tr><th>Mã</th><th>Hãng</th><th>Số sản phẩm</th><th>Thao tác</th></tr></thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.CategoryID</td><td>@item.CategoryName</td><td>@item.Products.Count</td>
+                <td><div class="row-actions"><a asp-action="EditCategory" asp-route-id="@item.CategoryID">Sửa</a>
+                    <form asp-action="DeleteCategory" method="post" onsubmit="return confirm('Xóa danh mục này?')">
+                        <input type="hidden" name="id" value="@item.CategoryID" />
+                        <button class="link-danger" type="submit">Xóa</button>
+                    </form></div></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+</div>

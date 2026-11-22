@@ -1,2 +1,19 @@
+@model List<Order>
 @{ ViewData["Title"] = "Tổng quan"; }
 <h1 class="admin-title">Tổng quan</h1>
+<div id="admin-live" role="status" aria-live="polite" class="alert alert-info py-2" style="margin-bottom:16px" hidden></div>
+<div class="dash-grid">
+  <div class="dash-card"><span>Sản phẩm</span><strong>@ViewBag.TotalProducts</strong><small>Đang có trên website</small></div>
+  <div class="dash-card"><span>Số lượng tồn kho</span><strong>@ViewBag.TotalStock</strong><small>Máy còn trong kho</small></div>
+  <div class="dash-card"><span>Thành viên</span><strong>@ViewBag.TotalUsers</strong><small>Tài khoản người dùng</small></div>
+  <div class="dash-card"><span>Đơn hàng</span><strong>@ViewBag.TotalOrders</strong><small>Đơn đã được ghi nhận</small></div>
+</div>
+<div class="panel"><div class="panel-header"><h2>Đơn hàng gần đây</h2><a asp-action="Orders">Xem tất cả</a></div>
+<table class="data-table"><thead><tr><th>Mã</th><th>Khách hàng</th><th>Ngày đặt</th><th>Tổng tiền</th><th>Trạng thái</th><th>Thanh toán</th></tr></thead><tbody>
+@foreach (var o in Model) { <tr><td>#@o.OrderID</td><td>@o.CustomerName</td><td>@o.OrderDate.ToString("dd/MM/yyyy")</td><td>@o.TotalAmount.ToString("N0") đ</td><td>@o.Status</td><td>@PaymentDisplay.Method(o.PaymentMethod)</td></tr> }
+</tbody></table>@if(!Model.Any()){ <p class="hint">Chưa có đơn hàng.</p> }</div>
+
+@section Scripts {
+  <script src="https://cdn.jsdelivr.net/npm/%40microsoft/signalr@10.0.0/dist/browser/signalr.min.js" crossorigin="anonymous"></script>
+  <script src="~/js/admin-live.js" asp-append-version="true"></script>
+}

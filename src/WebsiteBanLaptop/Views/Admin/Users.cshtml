@@ -1,0 +1,32 @@
+@model List<User>
+@{ ViewData["Title"] = "Quản lý thành viên"; }
+<h1 class="admin-title">Quản lý thành viên</h1>
+<div class="panel">
+  <div class="panel-header"><h2>Danh sách thành viên</h2><span>@Model.Count tài khoản</span></div>
+  <table class="data-table">
+    <thead><tr><th>Mã</th><th>Họ tên</th><th>Email</th><th>Vai trò</th><th>Thao tác</th></tr></thead>
+    <tbody>
+      @foreach (var u in Model)
+      {
+        <tr>
+          <td>@u.UserID</td><td>@u.FullName</td><td>@u.Email</td><td>@u.Role</td>
+          <td>
+            <a asp-action="EditUser" asp-route-id="@u.UserID">Sửa</a>
+            @if (u.Role == "Customer")
+            {
+              <form asp-action="DeleteUser" method="post" style="display:inline"
+                    onsubmit="return confirm('Bạn chắc chắn muốn xóa tài khoản khách hàng này?')">
+                <input type="hidden" name="id" value="@u.UserID" />
+                <button type="submit" class="link-danger">Xóa</button>
+              </form>
+            }
+            else
+            {
+              <span title="Tài khoản quản trị không thể xóa" style="color:#69786b;margin-left:8px">Được bảo vệ</span>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

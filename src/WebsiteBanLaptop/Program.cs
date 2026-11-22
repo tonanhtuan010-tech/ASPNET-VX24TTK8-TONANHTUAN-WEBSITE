@@ -1,69 +1,104 @@
 using System.Globalization;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebsiteBanLaptop.Data;
+using WebsiteBanLaptop.Hubs;
 using WebsiteBanLaptop.Models;
+using WebsiteBanLaptop.Services;
 
 var culture = CultureInfo.GetCultureInfo("vi-VN");
 CultureInfo.DefaultThreadCurrentCulture = culture;
 CultureInfo.DefaultThreadCurrentUICulture = culture;
 
-var resetAdmin = args.Any(a => string.Equals(a, "--reset-admin-password", StringComparison.OrdinalIgnoreCase));
-var webArgs = args.Where(a => !string.Equals(a, "--reset-admin-password", StringComparison.OrdinalIgnoreCase)).ToArray();
+var resetAdminRequested = args.Any(a =>
+    string.Equals(a, "--reset-admin-password", StringComparison.OrdinalIgnoreCase));
+var webArgs = args.Where(a =>
+    !string.Equals(a, "--reset-admin-password", StringComparison.OrdinalIgnoreCase)).ToArray();
 var builder = WebApplication.CreateBuilder(webArgs);
-if (resetAdmin) builder.Logging.ClearProviders();
-builder.Services.AddControllersWithViews();
+if (resetAdminRequested) builder.Logging.ClearProviders();
+
+builder.Services.AddControllersWithViews(options =>
+    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
+builder.Services.AddMemoryCache();
+builder.Services.AddScoped<CategoryMenuService>();
+builder.Services.AddSignalR();
+builder.Services.Configure<PaymentOptions>(builder.Configuration.GetSection(PaymentOptions.SectionName));
+builder.Services.AddScoped<VnPayGateway>();
+builder.Services.AddHttpClient<MoMoGateway>();
+builder.Services.AddScoped<PaymentReconciliationService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
+
+builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
+{
+    options.User.RequireUniqueEmail = true;
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireDigit = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
+})
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders();
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, StoreClaimsPrincipalFactory>();
+builder.Services.Configure<SecurityStampValidatorOptions>(options =>
+    options.ValidationInterval = TimeSpan.FromMinutes(1));
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/Denied";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.ExpireTimeSpan = TimeSpan.FromHours(8);
+    options.Events.OnRedirectToLogin = context =>
     {
-        options.LoginPath = "/Admin/Login";
-        options.AccessDeniedPath = "/Admin/Denied";
-        options.Cookie.HttpOnly = true;
-        options.ExpireTimeSpan = TimeSpan.FromHours(8);
-        options.Events.OnRedirectToLogin = context =>
+        if (context.Request.Path.StartsWithSegments("/Admin"))
         {
-            var path = context.Request.Path.ToString() + context.Request.QueryString.ToString();
-            if (context.Request.Path.StartsWithSegments("/Admin"))
-                context.Response.Redirect("/Admin/Login?returnUrl=" + Uri.EscapeDataString(path));
-            return Task.CompletedTask;
-        };
-    });
-builder.Services.AddAuthorization();
+            var requested = context.Request.Path.ToString() + context.Request.QueryString;
+            context.Response.Redirect("/Admin/Login?returnUrl=" + Uri.EscapeDataString(requested));
+        }
+        else context.Response.Redirect(context.RedirectUri);
+        return Task.CompletedTask;
+    };
+});
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(2);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+});
 
 var app = builder.Build();
-if (resetAdmin)
-{
-    if (!app.Environment.IsDevelopment())
-    {
-        Console.Error.WriteLine("Chi cho phep tao tai khoan Admin trong moi truong Development.");
-        Environment.ExitCode = 1;
-        return;
-    }
-    try
-    {
-        using var scope = app.Services.CreateScope();
-        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        var hasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher<User>>();
-        await AdminAccountSetup.ResetPasswordAsync(db, hasher);
-    }
-    catch (Exception ex)
-    {
-        Console.Error.WriteLine("Khong the tao mat khau Admin: " + ex.Message);
-        Environment.ExitCode = 1;
-    }
-    return;
-}
 
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    await db.Database.EnsureCreatedAsync();
-    await StageSchema.EnsureAsync(db);
-    await SampleData.AddAsync(db);
+    var created = await DatabaseBootstrapper.PrepareAsync(db, builder.Configuration, app.Environment);
+    var expectedDatabase = builder.Configuration["Database:Name"];
+
+    var users = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    var roles = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+    if (resetAdminRequested)
+    {
+        if (!app.Environment.IsDevelopment())
+            throw new InvalidOperationException("Chi tao lai mat khau Admin o Development.");
+        await AdminAccountSetup.ResetPasswordAsync(db, users, roles, expectedDatabase);
+        return;
+    }
+    await InitialData.EnsureRolesAsync(roles);
+    if (created)
+        await CatalogData.RestoreIfEmptyAsync(db);
 }
 
 if (!app.Environment.IsDevelopment())
@@ -72,9 +107,18 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 app.UseHttpsRedirection();
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    context.Response.Headers["X-Frame-Options"] = "DENY";
+    context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
+    await next();
+});
 app.UseStaticFiles();
 app.UseRouting();
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+app.MapHub<AdminOrdersHub>("/adminHub");
 app.Run();
